@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { open, realpath, stat } from 'node:fs/promises';
 import { basename, resolve } from 'node:path';
+import { DURATION_RECIPE, MS_TARBALL_SHA256, durationSourceEvidence } from './duration-artifact.mjs';
 
 const KNOWN_ASAR_SHA256 = '146ef8470d8cbb4a6db209bdc19bf2bad13350444186c0fd93c31087b142b92f';
 const KNOWN_APP_SHA256 = '958ce57fe22f87fdf121546e46dfccd9c8ee971ce3fd8f801d60d4ece39a2df9';
@@ -122,7 +123,7 @@ async function readAsarHeader(file, prefix, bytes) {
 
 /**
  * Inspect inert artifact bytes. Symlinks are explicitly resolved and the result
- * identifies the canonical file. Only the exact studied ASAR enables a recipe;
+ * identifies the canonical file. Only exact studied artifact bytes enable a recipe;
  * names, keyword strings, and archive metadata never establish eligibility.
  */
 export async function probeArtifact(inputPath) {
@@ -149,7 +150,11 @@ export async function probeArtifact(inputPath) {
     };
     if (await isPe(file, prefix, before.size)) result.format = 'pe';
     const asar = await readAsarHeader(file, prefix, before.size);
-    if (asar?.error) {
+    if (digest === MS_TARBALL_SHA256) {
+      result.supported = true;
+      result.recipe = { ...DURATION_RECIPE };
+      result.sourceEvidence = durationSourceEvidence();
+    } else if (asar?.error) {
       result.reasons.push(asar.error);
     } else if (asar) {
       result.format = 'asar';

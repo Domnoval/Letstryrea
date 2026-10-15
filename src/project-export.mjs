@@ -3,6 +3,7 @@ import { lstat, mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { crc32, deflateRawSync } from 'node:zlib';
+import { DURATION_PROJECT_PATHS } from './duration-export.mjs';
 
 const sourceRoot = fileURLToPath(new URL('../', import.meta.url));
 const copiedPaths = [
@@ -160,7 +161,7 @@ analysis reports are included.
   return { files: manifest };
 }
 
-async function archiveFiles(directory) {
+async function archiveFiles(directory, allowedPaths) {
   const files = [];
   let totalBytes = 0;
   async function visit(path) {
@@ -168,12 +169,12 @@ async function archiveFiles(directory) {
       const full = join(path, entry.name);
       const archivePath = relative(directory, full).split(sep).join('/');
       if (entry.isDirectory()) {
-        if (![...projectPaths].some((known) => known.startsWith(`${archivePath}/`))) {
+        if (![...allowedPaths].some((known) => known.startsWith(`${archivePath}/`))) {
           throw new Error(`Unexpected directory in generated project: ${archivePath}`);
         }
         await visit(full);
       } else {
-        if (!entry.isFile() || entry.isSymbolicLink() || !projectPaths.has(archivePath)) {
+        if (!entry.isFile() || entry.isSymbolicLink() || !allowedPaths.has(archivePath)) {
           throw new Error(`Unexpected file in generated project: ${archivePath}`);
         }
         const info = await requireRegularFile(full);
@@ -184,15 +185,19 @@ async function archiveFiles(directory) {
     }
   }
   await visit(directory);
-  if (files.length !== projectPaths.size) throw new Error('Generated project is missing required export files.');
+  if (files.length !== allowedPaths.size) throw new Error('Generated project is missing required export files.');
   return files.sort((a, b) => a.path < b.path ? -1 : a.path > b.path ? 1 : 0);
 }
 
 /** Create a deterministic, portable ZIP using only Node builtins. */
-export async function createProjectArchive({ projectDirectory, archivePath } = {}) {
+export async function createProjectArchive({ projectDirectory, archivePath, recipeId = 'obsidian-markdown-search-v1' } = {}) {
   if (typeof projectDirectory !== 'string' || typeof archivePath !== 'string') {
     throw new Error('A project directory and archive path are required.');
   }
+  let allowedPaths;
+  if (recipeId === 'obsidian-markdown-search-v1') allowedPaths = projectPaths;
+  else if (recipeId === 'ms-duration-v1') allowedPaths = new Set(DURATION_PROJECT_PATHS);
+  else throw new Error('Unknown project archive recipe.');
   const directory = resolve(projectDirectory);
   const info = await lstat(directory);
   if (!info.isDirectory() || info.isSymbolicLink()) throw new Error('Project must be a regular directory.');
@@ -201,7 +206,7 @@ export async function createProjectArchive({ projectDirectory, archivePath } = {
   if (!outputRelative.startsWith(`..${sep}`) && outputRelative !== '..') {
     throw new Error('Archive must be outside the generated project.');
   }
-  const files = await archiveFiles(directory);
+  const files = await archiveFiles(directory, allowedPaths);
   const localParts = [];
   const centralParts = [];
   let offset = 0;
