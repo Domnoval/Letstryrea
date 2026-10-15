@@ -1,0 +1,469 @@
+{
+  "scope": "Automated verified-recipe export for the exact studied Obsidian 1.14.4 application-update ASAR.",
+  "run": {
+    "schemaVersion": 1,
+    "startedAt": "2026-10-15T16:26:49.889Z",
+    "status": "completed",
+    "input": "/workspace/.onboarding/artifacts/obsidian/obsidian-1.14.4.asar",
+    "outputDirectory": "/workspace/Letstryrea/.cache/reconstructions/obsidian-1.14.4-first",
+    "stages": [
+      {
+        "name": "Identify artifact and verify recipe evidence",
+        "status": "completed",
+        "startedAt": "2026-10-15T16:26:49.890Z",
+        "finishedAt": "2026-10-15T16:26:49.929Z"
+      },
+      {
+        "name": "Check REA runtime",
+        "status": "completed",
+        "startedAt": "2026-10-15T16:26:49.929Z",
+        "finishedAt": "2026-10-15T16:26:51.403Z"
+      },
+      {
+        "name": "Inspect archive with REA",
+        "status": "completed",
+        "startedAt": "2026-10-15T16:26:51.403Z",
+        "finishedAt": "2026-10-15T16:26:53.353Z"
+      },
+      {
+        "name": "Analyze selected application sources with REA",
+        "status": "completed",
+        "startedAt": "2026-10-15T16:26:53.353Z",
+        "finishedAt": "2026-10-15T16:28:45.661Z"
+      },
+      {
+        "name": "Recheck artifact before export",
+        "status": "completed",
+        "startedAt": "2026-10-15T16:28:45.661Z",
+        "finishedAt": "2026-10-15T16:28:45.688Z"
+      },
+      {
+        "name": "Generate editable search project",
+        "status": "completed",
+        "startedAt": "2026-10-15T16:28:45.689Z",
+        "finishedAt": "2026-10-15T16:28:45.697Z"
+      },
+      {
+        "name": "Run generated project tests and demo",
+        "status": "completed",
+        "startedAt": "2026-10-15T16:28:45.697Z",
+        "finishedAt": "2026-10-15T16:28:48.606Z"
+      },
+      {
+        "name": "Package verified project ZIP",
+        "status": "completed",
+        "startedAt": "2026-10-15T16:28:48.606Z",
+        "finishedAt": "2026-10-15T16:28:48.613Z"
+      }
+    ],
+    "commands": [
+      {
+        "executable": "/workspace/.onboarding/rea-tools/node_modules/.bin/rea",
+        "args": [
+          "--version"
+        ],
+        "cwd": "/workspace/Letstryrea/",
+        "startedAt": "2026-10-15T16:26:49.930Z",
+        "durationMs": 1472,
+        "exitCode": 0,
+        "signal": null,
+        "timedOut": false,
+        "stdoutPath": "/workspace/Letstryrea/.cache/reconstructions/obsidian-1.14.4-first/evidence/rea-version.txt",
+        "stderrPath": "/workspace/Letstryrea/.cache/reconstructions/obsidian-1.14.4-first/evidence/rea-version.txt.stderr"
+      },
+      {
+        "executable": "/workspace/.onboarding/rea-tools/node_modules/.bin/rea",
+        "args": [
+          "inspect-artifact",
+          "/workspace/.onboarding/artifacts/obsidian/obsidian-1.14.4.asar",
+          "--json"
+        ],
+        "cwd": "/workspace/Letstryrea/",
+        "startedAt": "2026-10-15T16:26:51.404Z",
+        "durationMs": 1947,
+        "exitCode": 0,
+        "signal": null,
+        "timedOut": false,
+        "stdoutPath": "/workspace/Letstryrea/.cache/reconstructions/obsidian-1.14.4-first/evidence/inventory.json",
+        "stderrPath": "/workspace/Letstryrea/.cache/reconstructions/obsidian-1.14.4-first/evidence/inventory.json.stderr"
+      },
+      {
+        "executable": "/workspace/.onboarding/rea-tools/node_modules/.bin/rea",
+        "args": [
+          "analyze-javascript-application",
+          "/workspace/.onboarding/artifacts/obsidian/obsidian-1.14.4.asar",
+          "--artifact-format",
+          "asar",
+          "--integrity-policy",
+          "fail",
+          "--max-heap-mb",
+          "1024",
+          "--analysis-timeout-ms",
+          "120000",
+          "--source-path",
+          "package.json",
+          "--source-path",
+          "main.js",
+          "--source-path",
+          "index.html",
+          "--source-path",
+          "app.js",
+          "--source-path",
+          "enhance.js",
+          "--json"
+        ],
+        "cwd": "/workspace/Letstryrea/",
+        "startedAt": "2026-10-15T16:26:53.354Z",
+        "durationMs": 89046,
+        "exitCode": 0,
+        "signal": null,
+        "timedOut": false,
+        "stdoutPath": "/workspace/Letstryrea/.cache/reconstructions/obsidian-1.14.4-first/evidence/application.json",
+        "stderrPath": "/workspace/Letstryrea/.cache/reconstructions/obsidian-1.14.4-first/evidence/application.json.stderr"
+      },
+      {
+        "executable": "/workspace/.onboarding/rea-tools/node_modules/.bin/rea",
+        "args": [
+          "inspect-analysis-view",
+          "/workspace/Letstryrea/.cache/reconstructions/obsidian-1.14.4-first/evidence/.summary-request.json",
+          "--json"
+        ],
+        "cwd": "/workspace/Letstryrea/",
+        "startedAt": "2026-10-15T16:28:23.931Z",
+        "durationMs": 21721,
+        "exitCode": 0,
+        "signal": null,
+        "timedOut": false,
+        "stdoutPath": "/workspace/Letstryrea/.cache/reconstructions/obsidian-1.14.4-first/evidence/summary.json",
+        "stderrPath": "/workspace/Letstryrea/.cache/reconstructions/obsidian-1.14.4-first/evidence/summary.json.stderr"
+      },
+      {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "--test",
+          "--test-reporter=tap",
+          "test/search.test.mjs"
+        ],
+        "cwd": "/workspace/Letstryrea/.cache/reconstructions/obsidian-1.14.4-first/project",
+        "startedAt": "2026-10-15T16:28:45.698Z",
+        "durationMs": 2869,
+        "exitCode": 0,
+        "signal": null,
+        "timedOut": false,
+        "stdoutPath": "/workspace/Letstryrea/.cache/reconstructions/obsidian-1.14.4-first/evidence/project-tests.tap",
+        "stderrPath": "/workspace/Letstryrea/.cache/reconstructions/obsidian-1.14.4-first/evidence/project-tests.tap.stderr"
+      },
+      {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "bin/letstryrea.mjs",
+          "search:context",
+          "examples/vault",
+          "nebula",
+          "--path",
+          "notes",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/Letstryrea/.cache/reconstructions/obsidian-1.14.4-first/project",
+        "startedAt": "2026-10-15T16:28:48.568Z",
+        "durationMs": 38,
+        "exitCode": 0,
+        "signal": null,
+        "timedOut": false,
+        "stdoutPath": "/workspace/Letstryrea/.cache/reconstructions/obsidian-1.14.4-first/evidence/project-demo.json",
+        "stderrPath": "/workspace/Letstryrea/.cache/reconstructions/obsidian-1.14.4-first/evidence/project-demo.json.stderr"
+      }
+    ],
+    "generation": {
+      "mode": "verified-recipe-export",
+      "recipe": {
+        "id": "obsidian-markdown-search-v1",
+        "version": 1,
+        "title": "Obsidian 1.14.4 plain-text Markdown search",
+        "description": "Export the independently written, previously verified plain-text Markdown search implementation for the exact studied Obsidian 1.14.4 artifact.",
+        "capability": "plain-text-markdown-search"
+      },
+      "manifest": {
+        "files": [
+          {
+            "path": "README.md",
+            "bytes": 1192,
+            "sha256": "89954dd5d97d48a958d7cd6762658b9f558028fcc169c2e5b652ef6c70df66c0"
+          },
+          {
+            "path": "bin/letstryrea.mjs",
+            "bytes": 118,
+            "sha256": "e037a05cbf5d5fc82e7c02f9f18d7f528b96f0b33cda369d0b2367d6f5e78e0e"
+          },
+          {
+            "path": "docs/reconstruction-spec.md",
+            "bytes": 10334,
+            "sha256": "01be7afea469c92cc02ff8c3e5fdd810af031ee10423eeefcd6581c80f03230d"
+          },
+          {
+            "path": "examples/vault/Welcome.md",
+            "bytes": 130,
+            "sha256": "a7254e6f0c0e68050de94fa3812fca5d5a2a95fe3f225496aea5adc5dbf7d6dd"
+          },
+          {
+            "path": "examples/vault/notes/Observing.md",
+            "bytes": 101,
+            "sha256": "e0772de0995c317f906d58c9b02244213f5ca683e04a6503839a3b23cb7722ca"
+          },
+          {
+            "path": "examples/vault/notes/Shopping.md",
+            "bytes": 42,
+            "sha256": "61ff89b1b01d5e2d8e9c646df0887dad02ef4dba141448318d8278ae86d391e4"
+          },
+          {
+            "path": "package.json",
+            "bytes": 481,
+            "sha256": "ebe5b8349a96cc9b576e1e0a84527bf40cb4a32cd483fbca8beb1be798326e33"
+          },
+          {
+            "path": "recipe.json",
+            "bytes": 3875,
+            "sha256": "1281514fda11f75d530d0dba562fcaa7b95f97af400a9dfbe8b4bcf10fda6cf6"
+          },
+          {
+            "path": "src/search-cli.mjs",
+            "bytes": 4120,
+            "sha256": "f1880b8655e04d80df8b0dab959839224e69047b1051a0b626d11e2c23290fd3"
+          },
+          {
+            "path": "src/search.mjs",
+            "bytes": 6046,
+            "sha256": "59be8ea01fe1be7876e5fb5eb40c04ba5df9a518eec409e80222b7b867675e11"
+          },
+          {
+            "path": "test/search.test.mjs",
+            "bytes": 13972,
+            "sha256": "a383c5cb6bfead9b39ae9480afcec85116a874e96b2239533ae6f49615986cb9"
+          }
+        ]
+      }
+    },
+    "verification": {
+      "originalApplication": {
+        "status": "historical-only",
+        "rerunInThisJob": false,
+        "version": "1.14.4",
+        "passed": 69,
+        "total": 69,
+        "recordedAt": "2026-10-15T10:08:28.030Z",
+        "recordSha256": "a874d2031a55f97790832a15149513bea02da280ee034c41621cce512d55dd27",
+        "note": "These are the earlier recipe comparisons, not fresh comparisons of this generated project."
+      },
+      "generatedProject": {
+        "tests": 28,
+        "pass": 28,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "demo": {
+        "status": "passed",
+        "matchingFiles": 1,
+        "contexts": 2
+      }
+    },
+    "artifact": {
+      "path": "/workspace/.onboarding/artifacts/obsidian/obsidian-1.14.4.asar",
+      "name": "obsidian-1.14.4.asar",
+      "bytes": 27477966,
+      "sha256": "146ef8470d8cbb4a6db209bdc19bf2bad13350444186c0fd93c31087b142b92f",
+      "format": "asar",
+      "supported": true,
+      "recipe": {
+        "id": "obsidian-markdown-search-v1",
+        "version": 1,
+        "title": "Obsidian 1.14.4 plain-text Markdown search",
+        "description": "Export the independently written, previously verified plain-text Markdown search implementation for the exact studied Obsidian 1.14.4 artifact.",
+        "capability": "plain-text-markdown-search"
+      },
+      "sourceEvidence": {
+        "artifactSha256": "146ef8470d8cbb4a6db209bdc19bf2bad13350444186c0fd93c31087b142b92f",
+        "appJsSha256": "958ce57fe22f87fdf121546e46dfccd9c8ee971ce3fd8f801d60d4ece39a2df9",
+        "sourceVersion": "1.14.4",
+        "method": "exact-artifact-and-static-anchors",
+        "regions": [
+          {
+            "id": "basename-extension",
+            "label": "Basename and lowercase extension helpers",
+            "start": 547825,
+            "end": 548336,
+            "sha256": "b43b5b17676903fc57604459c4d07a19380949e641da0674c187a7b81fd64e85"
+          },
+          {
+            "id": "merge-ranges",
+            "label": "Range sorting and merging",
+            "start": 1260683,
+            "end": 1260850,
+            "sha256": "63a6a4224d06483b0825827f57beac495b5cc631888dec2ea76e80c27d51719e"
+          },
+          {
+            "id": "markdown-enumeration",
+            "label": "Vault Markdown enumeration",
+            "start": 1433798,
+            "end": 1434094,
+            "sha256": "34a5801d6e8dd908805727fcc3cfa1dbcc2920712ad5bdc9796ce36a381675ed"
+          },
+          {
+            "id": "regex-ranges",
+            "label": "Regex case flags and occurrence ranges",
+            "start": 1458632,
+            "end": 1459004,
+            "sha256": "dc456c15b945b7da0e4e3666b14519416f23cf775f0c6b0cdc39e4512b161f02"
+          },
+          {
+            "id": "quoted-matcher",
+            "label": "Quoted matcher",
+            "start": 1460736,
+            "end": 1461434,
+            "sha256": "58a7204e7e84929dbd0ecd7cef5266ea8a413b23707909ebb8f9cf9ce3e7266b"
+          },
+          {
+            "id": "literal-matcher",
+            "label": "Literal-token matcher",
+            "start": 1461434,
+            "end": 1461783,
+            "sha256": "f787c90c9f2da1cf0c69260c15f733ab0459ee0c370bd1e6f566ee83580465f8"
+          },
+          {
+            "id": "and-combination",
+            "label": "AND combination",
+            "start": 1462263,
+            "end": 1462586,
+            "sha256": "afae135e52f93bab82548521e39c7205fa665193f9b29d305cfdfb2372ec3db4"
+          },
+          {
+            "id": "query-tokenizer",
+            "label": "Query tokenizer",
+            "start": 1466974,
+            "end": 1468390,
+            "sha256": "98c684713ecd7f3d0c22cecbf4abdbc7475d91654bde75c6839cda250c0a9904"
+          },
+          {
+            "id": "filename-content",
+            "label": "Filename/content inputs and range normalization",
+            "start": 1475171,
+            "end": 1477037,
+            "sha256": "418d0cba2dda7d8e1de747ff4ace78cb8db536edee2b84afd4d37afd412da488"
+          },
+          {
+            "id": "cli-arguments",
+            "label": "Native CLI argument parsing",
+            "start": 1628304,
+            "end": 1628666,
+            "sha256": "57991476f78ba91b7ffdc06709272083bf5be965053a2a260659e5136a61816a"
+          },
+          {
+            "id": "ignore-filters",
+            "label": "Ignore-filter compilation",
+            "start": 1770651,
+            "end": 1771197,
+            "sha256": "f198f6b7d82fa290da473c9bd85d6138842e4b8c10bfa8b10987ade5a2b9b12c"
+          },
+          {
+            "id": "search-handlers",
+            "label": "Shared search loop and both CLI handlers",
+            "start": 2709159,
+            "end": 2711801,
+            "sha256": "be4d3919b78c2012623125f6447057bb98c29e1c6afba4977d8ff288eadfd8e6"
+          }
+        ]
+      },
+      "reasons": []
+    },
+    "limitations": [
+      "Only the exact studied Obsidian 1.14.4 application-update ASAR is supported by this recipe.",
+      "The generated project implements plain-text Markdown search, not the complete original application.",
+      "Generation exports an existing verified implementation; general artifact-to-source synthesis is not implemented.",
+      "REA source selection and semantic coverage are partial; unresolved behavior remains unknown.",
+      "Generated-project checks run fresh. The 69 original-app comparisons are historical evidence."
+    ],
+    "analyzer": {
+      "name": "rea-agents",
+      "version": "6.5.0"
+    },
+    "inventory": {
+      "files": 368,
+      "coverage": "complete",
+      "integrityContradictions": 0
+    },
+    "analysis": {
+      "evidenceId": "ev_e2fdd1dd4fd9dd5b0a347d3c74da302f4ba1e08e2c8709913401d62fe6241c9d",
+      "statistics": {
+        "relevant_files": 38,
+        "nested_asar_containers": 0,
+        "text_bytes_read": 4160762,
+        "invalid_utf8_files": 0,
+        "parsed_javascript_files": 3,
+        "visited_ast_nodes": 1155897,
+        "findings": 505,
+        "modules": 195,
+        "parse_failures": 0
+      },
+      "sourceSelection": {
+        "requested_paths": [
+          "package.json",
+          "main.js",
+          "index.html",
+          "app.js",
+          "enhance.js"
+        ],
+        "unselected_files": 33
+      },
+      "applicationCoverage": "partial",
+      "semanticCoverage": "partial",
+      "semanticUnknowns": 192953,
+      "limitations": [
+        "Caller-selected source analysis leaves 33 inventoried files outside analysis scope. Inventory identity covers the complete artifact; relationships through unselected sources remain unknown.",
+        "CommonJS and ESM binding relationships were recovered from inert syntax and resolved only within the inventoried artifact container.",
+        "Electron API identity follows proven lexical module aliases and structurally verified module-namespace interop. Other reassignments, dynamic selections, and visibly overwritten namespace members are unresolved; missing findings do not establish absence. Arbitrary call side effects and runtime registration are not evaluated.",
+        "Electron relationships are derived from inert syntax; runtime registration, reachability, defaults, and enforcement remain unproven.",
+        "Graph coverage is incomplete; unavailable facts remain explicit and must not be read as absence.",
+        "JavaScript and HTML were parsed as inert text; bundle bootstrap code was never executed.",
+        "Sender, frame, URL, and origin checks are observations only; REA does not claim that they enforce a complete authorization policy.",
+        "Static imports, entrypoints, workers, endpoints, and storage relationships do not prove runtime execution.",
+        "Static paths and relationships may remain unresolved when expressions are dynamic or obfuscated.",
+        "Webpack/Rspack factories were recovered from AST literals; REA did not invoke push handlers or bundle bootstrap code."
+      ]
+    },
+    "archive": {
+      "path": "/workspace/Letstryrea/.cache/reconstructions/obsidian-1.14.4-first/project.zip",
+      "bytes": 16300,
+      "sha256": "288b146d59f8b44873b4f2d91ab047591cc0d49066e49fe899efd64e799f4576",
+      "files": 11
+    },
+    "finishedAt": "2026-10-15T16:28:48.613Z"
+  },
+  "independentDeliveryCheck": {
+    "library": "Python standard library zipfile",
+    "crcValid": true,
+    "entries": 11,
+    "extractedProjectTests": {
+      "tests": 28,
+      "passed": 28,
+      "failed": 0
+    },
+    "log": ".cache/reconstructions/obsidian-1.14.4-first/evidence/zip-extraction-tests.tap"
+  },
+  "faultInjectionChecks": [
+    {
+      "case": "missing-rea-check",
+      "status": "failed",
+      "projectProduced": false,
+      "archiveProduced": false
+    },
+    {
+      "case": "conflicting-rea-evidence",
+      "status": "failed",
+      "projectProduced": false,
+      "archiveProduced": false
+    }
+  ],
+  "note": "The original-app69 comparison record is historical; the28 generated-project and28 independently extracted-project tests are fresh."
+}

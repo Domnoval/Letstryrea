@@ -1,0 +1,47 @@
+{
+  "verified_at": "2026-10-15T10:03:57.454773+00:00",
+  "app": {
+    "version": "1.14.4",
+    "source": "https://github.com/obsidianmd/obsidian-releases/releases/download/v1.14.4/obsidian-1.14.4.tar.gz",
+    "digest_source": "https://github.com/obsidianmd/obsidian-releases/releases/expanded_assets/v1.14.4",
+    "expected_sha256": "e70b7cd63787e7f798a84fec453f5c446b91877bd3f612e8fb98e9b76cc81120",
+    "actual_sha256": "e70b7cd63787e7f798a84fec453f5c446b91877bd3f612e8fb98e9b76cc81120",
+    "runtime_asar_sha256": "146ef8470d8cbb4a6db209bdc19bf2bad13350444186c0fd93c31087b142b92f"
+  },
+  "display_dependencies": {
+    "repository": "https://deb.debian.org/debian",
+    "release_signature": "Debian InRelease verified using sqv and /usr/share/keyrings/debian-archive-keyring.gpg",
+    "package_index_sha256": "7778d3e3f303b7ddb8ce0fe7c8d57473a076c6bf2e8f241f75421d2396352498",
+    "packages": [
+      {
+        "file": "xserver-common_21.1.16-1.3+deb13u3_all.deb",
+        "sha256": "dc1d37303c103b23c40cd1ea694c5c6561e0e8dc1734a73c7a0ae0ef080e7fcc",
+        "package_checksum_verified": true
+      },
+      {
+        "file": "xvfb_21.1.16-1.3+deb13u3_amd64.deb",
+        "sha256": "365da2b6c93339f34337c434a9489bb6411a240fa47b9f49693d3091745f28c2",
+        "package_checksum_verified": true
+      }
+    ]
+  },
+  "isolation": {
+    "profile": "profile",
+    "vault": "vault",
+    "cli_socket": "xdg-runtime/.obsidian-cli.sock",
+    "display": ":97",
+    "x11_tcp": "disabled",
+    "x11_auth": "random MIT-MAGIC-COOKIE-1 in local file",
+    "community_plugins": "not installed",
+    "updates": "disabled via ordinary app setting to hold version stable",
+    "electron_sandbox": "--no-sandbox required because archive chrome-sandbox lacks root-owned setuid permissions; outer cloud process/filesystem isolation remains; synthetic vault only"
+  },
+  "verification": "TLS verification preserved. Full installer SHA256 matches official GitHub release asset digest. Xvfb packages SHA256 match a package index whose SHA256 matches a cryptographically verified Debian InRelease. No package checksum/signature bypasses.",
+  "update_asar_signature": {
+    "algorithm": "RSA-SHA256",
+    "compressed_hash_verified": true,
+    "signature_verified": true,
+    "certificate_source": "Certificate embedded in main.js of official SHA256-verified full installer",
+    "certificate_fingerprint_sha256": "77:7B:E8:61:6A:32:4F:CC:D6:BA:9A:DD:4D:4B:B8:7F:45:9E:50:F7:F8:81:54:80:FA:06:C8:AB:2E:80:43:1A"
+  }
+}

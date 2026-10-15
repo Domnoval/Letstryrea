@@ -1,0 +1,5508 @@
+{
+  "schemaVersion": 1,
+  "startedAt": "2026-10-15T10:08:25.282Z",
+  "source": {
+    "description": "Synthetic notes and plain-text search cases used to compare against the installed Obsidian desktop CLI. Contains no Obsidian application code.",
+    "studiedVersion": "1.14.4",
+    "studiedRuntimeAsarSha256": "146ef8470d8cbb4a6db209bdc19bf2bad13350444186c0fd93c31087b142b92f"
+  },
+  "scope": "Unquoted literal terms joined by ASCII spaces, filename/content AND matching, merged context ranges, case folding, folder boundaries, ignored paths, file discovery, a single-match limit and total-before-limit. Excludes native advanced query operators and multi-match ordering under limits.",
+  "normalization": [
+    "Sort files only; preserve context occurrence order and repeated entries.",
+    "Convert the native no-match text sentinel to an empty array.",
+    "Normalize count output to {total:N}."
+  ],
+  "environment": {
+    "node": "v24.19.0",
+    "platform": "linux",
+    "architecture": "x64"
+  },
+  "preflight": {
+    "version": {
+      "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+      "args": [
+        "version"
+      ],
+      "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+      "startedAt": "2026-10-15T10:08:25.285Z",
+      "durationMs": 4.25,
+      "stdout": "1.14.4 (installer 1.14.4)\n",
+      "stderr": "",
+      "exit": 0,
+      "signal": null
+    },
+    "identity": {
+      "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+      "args": [
+        "vault=reaconstruction",
+        "eval",
+        "code=JSON.stringify({path:app.vault.adapter.basePath,filters:app.vault.getConfig('userIgnoreFilters')})"
+      ],
+      "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+      "startedAt": "2026-10-15T10:08:25.289Z",
+      "durationMs": 1.85,
+      "stdout": "=> {\"path\":\"/workspace/.onboarding/runtime-obsidian/vault\",\"filters\":[\"Ignored\",\"/private-note/\"]}\n",
+      "stderr": "",
+      "exit": 0,
+      "signal": null
+    }
+  },
+  "observations": [
+    {
+      "id": "literal:search",
+      "case": {
+        "id": "literal",
+        "query": "apple"
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=apple",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.291Z",
+        "durationMs": 2.31,
+        "stdout": "[\"ProjectsElse/Outside.md\",\"Projects/Inside.md\",\"Alpha.md\"]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "apple",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.293Z",
+        "durationMs": 36.23,
+        "stdout": "[\n  \"Alpha.md\",\n  \"Projects/Inside.md\",\n  \"ProjectsElse/Outside.md\"\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        "Alpha.md",
+        "Projects/Inside.md",
+        "ProjectsElse/Outside.md"
+      ],
+      "actual": [
+        "Alpha.md",
+        "Projects/Inside.md",
+        "ProjectsElse/Outside.md"
+      ]
+    },
+    {
+      "id": "literal:search:context",
+      "case": {
+        "id": "literal",
+        "query": "apple"
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=apple",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.330Z",
+        "durationMs": 2.58,
+        "stdout": "[{\"file\":\"ProjectsElse/Outside.md\",\"matches\":[{\"line\":1,\"text\":\"boundary apple\"}]},{\"file\":\"Projects/Inside.md\",\"matches\":[{\"line\":1,\"text\":\"boundary apple\"}]},{\"file\":\"Alpha.md\",\"matches\":[{\"line\":2,\"text\":\"apple Apple APPLE\"},{\"line\":2,\"text\":\"apple Apple APPLE\"},{\"line\":2,\"text\":\"apple Apple APPLE\"}]}]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "apple",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.332Z",
+        "durationMs": 33.43,
+        "stdout": "[\n  {\n    \"file\": \"Alpha.md\",\n    \"matches\": [\n      {\n        \"line\": 2,\n        \"text\": \"apple Apple APPLE\"\n      },\n      {\n        \"line\": 2,\n        \"text\": \"apple Apple APPLE\"\n      },\n      {\n        \"line\": 2,\n        \"text\": \"apple Apple APPLE\"\n      }\n    ]\n  },\n  {\n    \"file\": \"Projects/Inside.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"boundary apple\"\n      }\n    ]\n  },\n  {\n    \"file\": \"ProjectsElse/Outside.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"boundary apple\"\n      }\n    ]\n  }\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        {
+          "file": "Alpha.md",
+          "matches": [
+            {
+              "line": 2,
+              "text": "apple Apple APPLE"
+            },
+            {
+              "line": 2,
+              "text": "apple Apple APPLE"
+            },
+            {
+              "line": 2,
+              "text": "apple Apple APPLE"
+            }
+          ]
+        },
+        {
+          "file": "Projects/Inside.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "boundary apple"
+            }
+          ]
+        },
+        {
+          "file": "ProjectsElse/Outside.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "boundary apple"
+            }
+          ]
+        }
+      ],
+      "actual": [
+        {
+          "file": "Alpha.md",
+          "matches": [
+            {
+              "line": 2,
+              "text": "apple Apple APPLE"
+            },
+            {
+              "line": 2,
+              "text": "apple Apple APPLE"
+            },
+            {
+              "line": 2,
+              "text": "apple Apple APPLE"
+            }
+          ]
+        },
+        {
+          "file": "Projects/Inside.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "boundary apple"
+            }
+          ]
+        },
+        {
+          "file": "ProjectsElse/Outside.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "boundary apple"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "filename-only:search",
+      "case": {
+        "id": "filename-only",
+        "query": "NameNeedle"
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=NameNeedle",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.366Z",
+        "durationMs": 3.38,
+        "stdout": "[\"NameNeedle.md\"]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "NameNeedle",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.369Z",
+        "durationMs": 35.21,
+        "stdout": "[\n  \"NameNeedle.md\"\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        "NameNeedle.md"
+      ],
+      "actual": [
+        "NameNeedle.md"
+      ]
+    },
+    {
+      "id": "filename-only:search:context",
+      "case": {
+        "id": "filename-only",
+        "query": "NameNeedle"
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=NameNeedle",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.405Z",
+        "durationMs": 2.74,
+        "stdout": "[{\"file\":\"NameNeedle.md\",\"matches\":[]}]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "NameNeedle",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.408Z",
+        "durationMs": 39.04,
+        "stdout": "[\n  {\n    \"file\": \"NameNeedle.md\",\n    \"matches\": []\n  }\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        {
+          "file": "NameNeedle.md",
+          "matches": []
+        }
+      ],
+      "actual": [
+        {
+          "file": "NameNeedle.md",
+          "matches": []
+        }
+      ]
+    },
+    {
+      "id": "filename-extension:search",
+      "case": {
+        "id": "filename-extension",
+        "query": "md"
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=md",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.447Z",
+        "durationMs": 2.75,
+        "stdout": "[\"alpha-name.md\",\"Whitespace.md\",\"VisibleIgnore.md\",\"Upper.MD\",\"UnicodeCase.md\",\"Unicode.md\",\"ProjectsElse/Outside.md\",\"Projects.md\",\"Projects/Sub/Deep.md\",\"Projects/Inside.md\",\"NoHit.md\",\"NameNeedle.md\",\"LiteralTokens.md\",\"Alpha.md\",\"Adjacent.md\"]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "md",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.449Z",
+        "durationMs": 31.87,
+        "stdout": "[\n  \"Adjacent.md\",\n  \"Alpha.md\",\n  \"LiteralTokens.md\",\n  \"NameNeedle.md\",\n  \"NoHit.md\",\n  \"Projects.md\",\n  \"Projects/Inside.md\",\n  \"Projects/Sub/Deep.md\",\n  \"ProjectsElse/Outside.md\",\n  \"Unicode.md\",\n  \"UnicodeCase.md\",\n  \"Upper.MD\",\n  \"VisibleIgnore.md\",\n  \"Whitespace.md\",\n  \"alpha-name.md\"\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        "Adjacent.md",
+        "Alpha.md",
+        "LiteralTokens.md",
+        "NameNeedle.md",
+        "NoHit.md",
+        "Projects.md",
+        "Projects/Inside.md",
+        "Projects/Sub/Deep.md",
+        "ProjectsElse/Outside.md",
+        "Unicode.md",
+        "UnicodeCase.md",
+        "Upper.MD",
+        "VisibleIgnore.md",
+        "Whitespace.md",
+        "alpha-name.md"
+      ],
+      "actual": [
+        "Adjacent.md",
+        "Alpha.md",
+        "LiteralTokens.md",
+        "NameNeedle.md",
+        "NoHit.md",
+        "Projects.md",
+        "Projects/Inside.md",
+        "Projects/Sub/Deep.md",
+        "ProjectsElse/Outside.md",
+        "Unicode.md",
+        "UnicodeCase.md",
+        "Upper.MD",
+        "VisibleIgnore.md",
+        "Whitespace.md",
+        "alpha-name.md"
+      ]
+    },
+    {
+      "id": "filename-extension:search:context",
+      "case": {
+        "id": "filename-extension",
+        "query": "md"
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=md",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.481Z",
+        "durationMs": 2.48,
+        "stdout": "[{\"file\":\"alpha-name.md\",\"matches\":[]},{\"file\":\"Whitespace.md\",\"matches\":[]},{\"file\":\"VisibleIgnore.md\",\"matches\":[]},{\"file\":\"Upper.MD\",\"matches\":[]},{\"file\":\"UnicodeCase.md\",\"matches\":[]},{\"file\":\"Unicode.md\",\"matches\":[]},{\"file\":\"ProjectsElse/Outside.md\",\"matches\":[]},{\"file\":\"Projects.md\",\"matches\":[]},{\"file\":\"Projects/Sub/Deep.md\",\"matches\":[]},{\"file\":\"Projects/Inside.md\",\"matches\":[]},{\"file\":\"NoHit.md\",\"matches\":[]},{\"file\":\"NameNeedle.md\",\"matches\":[]},{\"file\":\"LiteralTokens.md\",\"matches\":[]},{\"file\":\"Alpha.md\",\"matches\":[]},{\"file\":\"Adjacent.md\",\"matches\":[]}]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "md",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.484Z",
+        "durationMs": 35.01,
+        "stdout": "[\n  {\n    \"file\": \"Adjacent.md\",\n    \"matches\": []\n  },\n  {\n    \"file\": \"Alpha.md\",\n    \"matches\": []\n  },\n  {\n    \"file\": \"LiteralTokens.md\",\n    \"matches\": []\n  },\n  {\n    \"file\": \"NameNeedle.md\",\n    \"matches\": []\n  },\n  {\n    \"file\": \"NoHit.md\",\n    \"matches\": []\n  },\n  {\n    \"file\": \"Projects.md\",\n    \"matches\": []\n  },\n  {\n    \"file\": \"Projects/Inside.md\",\n    \"matches\": []\n  },\n  {\n    \"file\": \"Projects/Sub/Deep.md\",\n    \"matches\": []\n  },\n  {\n    \"file\": \"ProjectsElse/Outside.md\",\n    \"matches\": []\n  },\n  {\n    \"file\": \"Unicode.md\",\n    \"matches\": []\n  },\n  {\n    \"file\": \"UnicodeCase.md\",\n    \"matches\": []\n  },\n  {\n    \"file\": \"Upper.MD\",\n    \"matches\": []\n  },\n  {\n    \"file\": \"VisibleIgnore.md\",\n    \"matches\": []\n  },\n  {\n    \"file\": \"Whitespace.md\",\n    \"matches\": []\n  },\n  {\n    \"file\": \"alpha-name.md\",\n    \"matches\": []\n  }\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        {
+          "file": "Adjacent.md",
+          "matches": []
+        },
+        {
+          "file": "Alpha.md",
+          "matches": []
+        },
+        {
+          "file": "LiteralTokens.md",
+          "matches": []
+        },
+        {
+          "file": "NameNeedle.md",
+          "matches": []
+        },
+        {
+          "file": "NoHit.md",
+          "matches": []
+        },
+        {
+          "file": "Projects.md",
+          "matches": []
+        },
+        {
+          "file": "Projects/Inside.md",
+          "matches": []
+        },
+        {
+          "file": "Projects/Sub/Deep.md",
+          "matches": []
+        },
+        {
+          "file": "ProjectsElse/Outside.md",
+          "matches": []
+        },
+        {
+          "file": "Unicode.md",
+          "matches": []
+        },
+        {
+          "file": "UnicodeCase.md",
+          "matches": []
+        },
+        {
+          "file": "Upper.MD",
+          "matches": []
+        },
+        {
+          "file": "VisibleIgnore.md",
+          "matches": []
+        },
+        {
+          "file": "Whitespace.md",
+          "matches": []
+        },
+        {
+          "file": "alpha-name.md",
+          "matches": []
+        }
+      ],
+      "actual": [
+        {
+          "file": "Adjacent.md",
+          "matches": []
+        },
+        {
+          "file": "Alpha.md",
+          "matches": []
+        },
+        {
+          "file": "LiteralTokens.md",
+          "matches": []
+        },
+        {
+          "file": "NameNeedle.md",
+          "matches": []
+        },
+        {
+          "file": "NoHit.md",
+          "matches": []
+        },
+        {
+          "file": "Projects.md",
+          "matches": []
+        },
+        {
+          "file": "Projects/Inside.md",
+          "matches": []
+        },
+        {
+          "file": "Projects/Sub/Deep.md",
+          "matches": []
+        },
+        {
+          "file": "ProjectsElse/Outside.md",
+          "matches": []
+        },
+        {
+          "file": "Unicode.md",
+          "matches": []
+        },
+        {
+          "file": "UnicodeCase.md",
+          "matches": []
+        },
+        {
+          "file": "Upper.MD",
+          "matches": []
+        },
+        {
+          "file": "VisibleIgnore.md",
+          "matches": []
+        },
+        {
+          "file": "Whitespace.md",
+          "matches": []
+        },
+        {
+          "file": "alpha-name.md",
+          "matches": []
+        }
+      ]
+    },
+    {
+      "id": "folder-not-filename:search",
+      "case": {
+        "id": "folder-not-filename",
+        "query": "Projects"
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=Projects",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.519Z",
+        "durationMs": 2.51,
+        "stdout": "[\"Projects.md\"]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "Projects",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.522Z",
+        "durationMs": 31.73,
+        "stdout": "[\n  \"Projects.md\"\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        "Projects.md"
+      ],
+      "actual": [
+        "Projects.md"
+      ]
+    },
+    {
+      "id": "folder-not-filename:search:context",
+      "case": {
+        "id": "folder-not-filename",
+        "query": "Projects"
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=Projects",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.553Z",
+        "durationMs": 2.74,
+        "stdout": "[{\"file\":\"Projects.md\",\"matches\":[]}]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "Projects",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.556Z",
+        "durationMs": 33.47,
+        "stdout": "[\n  {\n    \"file\": \"Projects.md\",\n    \"matches\": []\n  }\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        {
+          "file": "Projects.md",
+          "matches": []
+        }
+      ],
+      "actual": [
+        {
+          "file": "Projects.md",
+          "matches": []
+        }
+      ]
+    },
+    {
+      "id": "multiword-content:search",
+      "case": {
+        "id": "multiword-content",
+        "query": "red green"
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=red green",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.590Z",
+        "durationMs": 2.5,
+        "stdout": "[\"LiteralTokens.md\",\"Alpha.md\"]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "red green",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.592Z",
+        "durationMs": 35.3,
+        "stdout": "[\n  \"Alpha.md\",\n  \"LiteralTokens.md\"\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        "Alpha.md",
+        "LiteralTokens.md"
+      ],
+      "actual": [
+        "Alpha.md",
+        "LiteralTokens.md"
+      ]
+    },
+    {
+      "id": "multiword-content:search:context",
+      "case": {
+        "id": "multiword-content",
+        "query": "red green"
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=red green",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.628Z",
+        "durationMs": 2.51,
+        "stdout": "[{\"file\":\"LiteralTokens.md\",\"matches\":[{\"line\":1,\"text\":\"red\\tgreen\"},{\"line\":1,\"text\":\"red\\tgreen\"},{\"line\":2,\"text\":\"red\"},{\"line\":3,\"text\":\"green\"},{\"line\":6,\"text\":\"red\u00a0green\"},{\"line\":6,\"text\":\"red\u00a0green\"}]},{\"file\":\"Alpha.md\",\"matches\":[{\"line\":3,\"text\":\"red green\"},{\"line\":3,\"text\":\"red green\"},{\"line\":4,\"text\":\"red and red\"},{\"line\":4,\"text\":\"red and red\"},{\"line\":5,\"text\":\"red\"},{\"line\":6,\"text\":\"green\"}]}]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "red green",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.630Z",
+        "durationMs": 32.28,
+        "stdout": "[\n  {\n    \"file\": \"Alpha.md\",\n    \"matches\": [\n      {\n        \"line\": 3,\n        \"text\": \"red green\"\n      },\n      {\n        \"line\": 3,\n        \"text\": \"red green\"\n      },\n      {\n        \"line\": 4,\n        \"text\": \"red and red\"\n      },\n      {\n        \"line\": 4,\n        \"text\": \"red and red\"\n      },\n      {\n        \"line\": 5,\n        \"text\": \"red\"\n      },\n      {\n        \"line\": 6,\n        \"text\": \"green\"\n      }\n    ]\n  },\n  {\n    \"file\": \"LiteralTokens.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"red\\tgreen\"\n      },\n      {\n        \"line\": 1,\n        \"text\": \"red\\tgreen\"\n      },\n      {\n        \"line\": 2,\n        \"text\": \"red\"\n      },\n      {\n        \"line\": 3,\n        \"text\": \"green\"\n      },\n      {\n        \"line\": 6,\n        \"text\": \"red\u00a0green\"\n      },\n      {\n        \"line\": 6,\n        \"text\": \"red\u00a0green\"\n      }\n    ]\n  }\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        {
+          "file": "Alpha.md",
+          "matches": [
+            {
+              "line": 3,
+              "text": "red green"
+            },
+            {
+              "line": 3,
+              "text": "red green"
+            },
+            {
+              "line": 4,
+              "text": "red and red"
+            },
+            {
+              "line": 4,
+              "text": "red and red"
+            },
+            {
+              "line": 5,
+              "text": "red"
+            },
+            {
+              "line": 6,
+              "text": "green"
+            }
+          ]
+        },
+        {
+          "file": "LiteralTokens.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "red\tgreen"
+            },
+            {
+              "line": 1,
+              "text": "red\tgreen"
+            },
+            {
+              "line": 2,
+              "text": "red"
+            },
+            {
+              "line": 3,
+              "text": "green"
+            },
+            {
+              "line": 6,
+              "text": "red\u00a0green"
+            },
+            {
+              "line": 6,
+              "text": "red\u00a0green"
+            }
+          ]
+        }
+      ],
+      "actual": [
+        {
+          "file": "Alpha.md",
+          "matches": [
+            {
+              "line": 3,
+              "text": "red green"
+            },
+            {
+              "line": 3,
+              "text": "red green"
+            },
+            {
+              "line": 4,
+              "text": "red and red"
+            },
+            {
+              "line": 4,
+              "text": "red and red"
+            },
+            {
+              "line": 5,
+              "text": "red"
+            },
+            {
+              "line": 6,
+              "text": "green"
+            }
+          ]
+        },
+        {
+          "file": "LiteralTokens.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "red\tgreen"
+            },
+            {
+              "line": 1,
+              "text": "red\tgreen"
+            },
+            {
+              "line": 2,
+              "text": "red"
+            },
+            {
+              "line": 3,
+              "text": "green"
+            },
+            {
+              "line": 6,
+              "text": "red\u00a0green"
+            },
+            {
+              "line": 6,
+              "text": "red\u00a0green"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "multiword-across-lines:search",
+      "case": {
+        "id": "multiword-across-lines",
+        "query": "beta gamma"
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=beta gamma",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.663Z",
+        "durationMs": 2.79,
+        "stdout": "[\"alpha-name.md\"]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "beta gamma",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.665Z",
+        "durationMs": 35.74,
+        "stdout": "[\n  \"alpha-name.md\"\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        "alpha-name.md"
+      ],
+      "actual": [
+        "alpha-name.md"
+      ]
+    },
+    {
+      "id": "multiword-across-lines:search:context",
+      "case": {
+        "id": "multiword-across-lines",
+        "query": "beta gamma"
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=beta gamma",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.701Z",
+        "durationMs": 2.89,
+        "stdout": "[{\"file\":\"alpha-name.md\",\"matches\":[{\"line\":1,\"text\":\"beta appears here\"},{\"line\":2,\"text\":\"gamma appears elsewhere\"}]}]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "beta gamma",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.704Z",
+        "durationMs": 41.05,
+        "stdout": "[\n  {\n    \"file\": \"alpha-name.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"beta appears here\"\n      },\n      {\n        \"line\": 2,\n        \"text\": \"gamma appears elsewhere\"\n      }\n    ]\n  }\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        {
+          "file": "alpha-name.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "beta appears here"
+            },
+            {
+              "line": 2,
+              "text": "gamma appears elsewhere"
+            }
+          ]
+        }
+      ],
+      "actual": [
+        {
+          "file": "alpha-name.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "beta appears here"
+            },
+            {
+              "line": 2,
+              "text": "gamma appears elsewhere"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "multiword-filename-content:search",
+      "case": {
+        "id": "multiword-filename-content",
+        "query": "alpha beta"
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=alpha beta",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.745Z",
+        "durationMs": 3.05,
+        "stdout": "[\"alpha-name.md\"]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "alpha beta",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.748Z",
+        "durationMs": 34.48,
+        "stdout": "[\n  \"alpha-name.md\"\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        "alpha-name.md"
+      ],
+      "actual": [
+        "alpha-name.md"
+      ]
+    },
+    {
+      "id": "multiword-filename-content:search:context",
+      "case": {
+        "id": "multiword-filename-content",
+        "query": "alpha beta"
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=alpha beta",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.783Z",
+        "durationMs": 2.56,
+        "stdout": "[{\"file\":\"alpha-name.md\",\"matches\":[{\"line\":1,\"text\":\"beta appears here\"}]}]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "alpha beta",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.786Z",
+        "durationMs": 33.84,
+        "stdout": "[\n  {\n    \"file\": \"alpha-name.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"beta appears here\"\n      }\n    ]\n  }\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        {
+          "file": "alpha-name.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "beta appears here"
+            }
+          ]
+        }
+      ],
+      "actual": [
+        {
+          "file": "alpha-name.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "beta appears here"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repeated-same-line:search",
+      "case": {
+        "id": "repeated-same-line",
+        "query": "red"
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=red",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.819Z",
+        "durationMs": 2.45,
+        "stdout": "[\"LiteralTokens.md\",\"Alpha.md\"]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "red",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.822Z",
+        "durationMs": 35.28,
+        "stdout": "[\n  \"Alpha.md\",\n  \"LiteralTokens.md\"\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        "Alpha.md",
+        "LiteralTokens.md"
+      ],
+      "actual": [
+        "Alpha.md",
+        "LiteralTokens.md"
+      ]
+    },
+    {
+      "id": "repeated-same-line:search:context",
+      "case": {
+        "id": "repeated-same-line",
+        "query": "red"
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=red",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.857Z",
+        "durationMs": 2.32,
+        "stdout": "[{\"file\":\"LiteralTokens.md\",\"matches\":[{\"line\":1,\"text\":\"red\\tgreen\"},{\"line\":2,\"text\":\"red\"},{\"line\":6,\"text\":\"red\u00a0green\"}]},{\"file\":\"Alpha.md\",\"matches\":[{\"line\":3,\"text\":\"red green\"},{\"line\":4,\"text\":\"red and red\"},{\"line\":4,\"text\":\"red and red\"},{\"line\":5,\"text\":\"red\"}]}]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "red",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.860Z",
+        "durationMs": 34.09,
+        "stdout": "[\n  {\n    \"file\": \"Alpha.md\",\n    \"matches\": [\n      {\n        \"line\": 3,\n        \"text\": \"red green\"\n      },\n      {\n        \"line\": 4,\n        \"text\": \"red and red\"\n      },\n      {\n        \"line\": 4,\n        \"text\": \"red and red\"\n      },\n      {\n        \"line\": 5,\n        \"text\": \"red\"\n      }\n    ]\n  },\n  {\n    \"file\": \"LiteralTokens.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"red\\tgreen\"\n      },\n      {\n        \"line\": 2,\n        \"text\": \"red\"\n      },\n      {\n        \"line\": 6,\n        \"text\": \"red\u00a0green\"\n      }\n    ]\n  }\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        {
+          "file": "Alpha.md",
+          "matches": [
+            {
+              "line": 3,
+              "text": "red green"
+            },
+            {
+              "line": 4,
+              "text": "red and red"
+            },
+            {
+              "line": 4,
+              "text": "red and red"
+            },
+            {
+              "line": 5,
+              "text": "red"
+            }
+          ]
+        },
+        {
+          "file": "LiteralTokens.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "red\tgreen"
+            },
+            {
+              "line": 2,
+              "text": "red"
+            },
+            {
+              "line": 6,
+              "text": "red\u00a0green"
+            }
+          ]
+        }
+      ],
+      "actual": [
+        {
+          "file": "Alpha.md",
+          "matches": [
+            {
+              "line": 3,
+              "text": "red green"
+            },
+            {
+              "line": 4,
+              "text": "red and red"
+            },
+            {
+              "line": 4,
+              "text": "red and red"
+            },
+            {
+              "line": 5,
+              "text": "red"
+            }
+          ]
+        },
+        {
+          "file": "LiteralTokens.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "red\tgreen"
+            },
+            {
+              "line": 2,
+              "text": "red"
+            },
+            {
+              "line": 6,
+              "text": "red\u00a0green"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "adjacent-ranges:search",
+      "case": {
+        "id": "adjacent-ranges",
+        "query": "aa"
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=aa",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.894Z",
+        "durationMs": 2.75,
+        "stdout": "[\"Adjacent.md\"]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "aa",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.897Z",
+        "durationMs": 37.44,
+        "stdout": "[\n  \"Adjacent.md\"\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        "Adjacent.md"
+      ],
+      "actual": [
+        "Adjacent.md"
+      ]
+    },
+    {
+      "id": "adjacent-ranges:search:context",
+      "case": {
+        "id": "adjacent-ranges",
+        "query": "aa"
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=aa",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.934Z",
+        "durationMs": 3.25,
+        "stdout": "[{\"file\":\"Adjacent.md\",\"matches\":[{\"line\":1,\"text\":\"aaaa\"},{\"line\":2,\"text\":\"aa aa\"},{\"line\":2,\"text\":\"aa aa\"}]}]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "aa",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.937Z",
+        "durationMs": 31.51,
+        "stdout": "[\n  {\n    \"file\": \"Adjacent.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"aaaa\"\n      },\n      {\n        \"line\": 2,\n        \"text\": \"aa aa\"\n      },\n      {\n        \"line\": 2,\n        \"text\": \"aa aa\"\n      }\n    ]\n  }\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        {
+          "file": "Adjacent.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "aaaa"
+            },
+            {
+              "line": 2,
+              "text": "aa aa"
+            },
+            {
+              "line": 2,
+              "text": "aa aa"
+            }
+          ]
+        }
+      ],
+      "actual": [
+        {
+          "file": "Adjacent.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "aaaa"
+            },
+            {
+              "line": 2,
+              "text": "aa aa"
+            },
+            {
+              "line": 2,
+              "text": "aa aa"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "same-term-twice:search",
+      "case": {
+        "id": "same-term-twice",
+        "query": "red red"
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=red red",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.969Z",
+        "durationMs": 2.56,
+        "stdout": "[\"LiteralTokens.md\",\"Alpha.md\"]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "red red",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:25.972Z",
+        "durationMs": 33.48,
+        "stdout": "[\n  \"Alpha.md\",\n  \"LiteralTokens.md\"\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        "Alpha.md",
+        "LiteralTokens.md"
+      ],
+      "actual": [
+        "Alpha.md",
+        "LiteralTokens.md"
+      ]
+    },
+    {
+      "id": "same-term-twice:search:context",
+      "case": {
+        "id": "same-term-twice",
+        "query": "red red"
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=red red",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.005Z",
+        "durationMs": 2.56,
+        "stdout": "[{\"file\":\"LiteralTokens.md\",\"matches\":[{\"line\":1,\"text\":\"red\\tgreen\"},{\"line\":2,\"text\":\"red\"},{\"line\":6,\"text\":\"red\u00a0green\"}]},{\"file\":\"Alpha.md\",\"matches\":[{\"line\":3,\"text\":\"red green\"},{\"line\":4,\"text\":\"red and red\"},{\"line\":4,\"text\":\"red and red\"},{\"line\":5,\"text\":\"red\"}]}]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "red red",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.008Z",
+        "durationMs": 33.33,
+        "stdout": "[\n  {\n    \"file\": \"Alpha.md\",\n    \"matches\": [\n      {\n        \"line\": 3,\n        \"text\": \"red green\"\n      },\n      {\n        \"line\": 4,\n        \"text\": \"red and red\"\n      },\n      {\n        \"line\": 4,\n        \"text\": \"red and red\"\n      },\n      {\n        \"line\": 5,\n        \"text\": \"red\"\n      }\n    ]\n  },\n  {\n    \"file\": \"LiteralTokens.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"red\\tgreen\"\n      },\n      {\n        \"line\": 2,\n        \"text\": \"red\"\n      },\n      {\n        \"line\": 6,\n        \"text\": \"red\u00a0green\"\n      }\n    ]\n  }\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        {
+          "file": "Alpha.md",
+          "matches": [
+            {
+              "line": 3,
+              "text": "red green"
+            },
+            {
+              "line": 4,
+              "text": "red and red"
+            },
+            {
+              "line": 4,
+              "text": "red and red"
+            },
+            {
+              "line": 5,
+              "text": "red"
+            }
+          ]
+        },
+        {
+          "file": "LiteralTokens.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "red\tgreen"
+            },
+            {
+              "line": 2,
+              "text": "red"
+            },
+            {
+              "line": 6,
+              "text": "red\u00a0green"
+            }
+          ]
+        }
+      ],
+      "actual": [
+        {
+          "file": "Alpha.md",
+          "matches": [
+            {
+              "line": 3,
+              "text": "red green"
+            },
+            {
+              "line": 4,
+              "text": "red and red"
+            },
+            {
+              "line": 4,
+              "text": "red and red"
+            },
+            {
+              "line": 5,
+              "text": "red"
+            }
+          ]
+        },
+        {
+          "file": "LiteralTokens.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "red\tgreen"
+            },
+            {
+              "line": 2,
+              "text": "red"
+            },
+            {
+              "line": 6,
+              "text": "red\u00a0green"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "trim-and-crlf:search",
+      "case": {
+        "id": "trim-and-crlf",
+        "query": "needle"
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=needle",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.041Z",
+        "durationMs": 2.69,
+        "stdout": "[\"Whitespace.md\",\"NameNeedle.md\"]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "needle",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.044Z",
+        "durationMs": 33.62,
+        "stdout": "[\n  \"NameNeedle.md\",\n  \"Whitespace.md\"\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        "NameNeedle.md",
+        "Whitespace.md"
+      ],
+      "actual": [
+        "NameNeedle.md",
+        "Whitespace.md"
+      ]
+    },
+    {
+      "id": "trim-and-crlf:search:context",
+      "case": {
+        "id": "trim-and-crlf",
+        "query": "needle"
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=needle",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.078Z",
+        "durationMs": 2.38,
+        "stdout": "[{\"file\":\"Whitespace.md\",\"matches\":[{\"line\":1,\"text\":\"padded needle\"},{\"line\":2,\"text\":\"needle\"}]},{\"file\":\"NameNeedle.md\",\"matches\":[]}]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "needle",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.080Z",
+        "durationMs": 32.97,
+        "stdout": "[\n  {\n    \"file\": \"NameNeedle.md\",\n    \"matches\": []\n  },\n  {\n    \"file\": \"Whitespace.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"padded needle\"\n      },\n      {\n        \"line\": 2,\n        \"text\": \"needle\"\n      }\n    ]\n  }\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        {
+          "file": "NameNeedle.md",
+          "matches": []
+        },
+        {
+          "file": "Whitespace.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "padded needle"
+            },
+            {
+              "line": 2,
+              "text": "needle"
+            }
+          ]
+        }
+      ],
+      "actual": [
+        {
+          "file": "NameNeedle.md",
+          "matches": []
+        },
+        {
+          "file": "Whitespace.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "padded needle"
+            },
+            {
+              "line": 2,
+              "text": "needle"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "case-sensitive:search",
+      "case": {
+        "id": "case-sensitive",
+        "query": "Apple",
+        "case": true
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=Apple",
+          "format=json",
+          "case"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.113Z",
+        "durationMs": 2.8,
+        "stdout": "[\"Alpha.md\"]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "Apple",
+          "--format",
+          "json",
+          "--case"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.116Z",
+        "durationMs": 38.3,
+        "stdout": "[\n  \"Alpha.md\"\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        "Alpha.md"
+      ],
+      "actual": [
+        "Alpha.md"
+      ]
+    },
+    {
+      "id": "case-sensitive:search:context",
+      "case": {
+        "id": "case-sensitive",
+        "query": "Apple",
+        "case": true
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=Apple",
+          "format=json",
+          "case"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.154Z",
+        "durationMs": 7.97,
+        "stdout": "[{\"file\":\"Alpha.md\",\"matches\":[{\"line\":2,\"text\":\"apple Apple APPLE\"}]}]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "Apple",
+          "--format",
+          "json",
+          "--case"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.162Z",
+        "durationMs": 33.91,
+        "stdout": "[\n  {\n    \"file\": \"Alpha.md\",\n    \"matches\": [\n      {\n        \"line\": 2,\n        \"text\": \"apple Apple APPLE\"\n      }\n    ]\n  }\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        {
+          "file": "Alpha.md",
+          "matches": [
+            {
+              "line": 2,
+              "text": "apple Apple APPLE"
+            }
+          ]
+        }
+      ],
+      "actual": [
+        {
+          "file": "Alpha.md",
+          "matches": [
+            {
+              "line": 2,
+              "text": "apple Apple APPLE"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sigma-insensitive:search",
+      "case": {
+        "id": "sigma-insensitive",
+        "query": "\u03a3"
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=\u03a3",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.196Z",
+        "durationMs": 3.45,
+        "stdout": "[\"UnicodeCase.md\",\"Unicode.md\"]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "\u03a3",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.200Z",
+        "durationMs": 35.31,
+        "stdout": "[\n  \"Unicode.md\",\n  \"UnicodeCase.md\"\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        "Unicode.md",
+        "UnicodeCase.md"
+      ],
+      "actual": [
+        "Unicode.md",
+        "UnicodeCase.md"
+      ]
+    },
+    {
+      "id": "sigma-insensitive:search:context",
+      "case": {
+        "id": "sigma-insensitive",
+        "query": "\u03a3"
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=\u03a3",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.235Z",
+        "durationMs": 3.14,
+        "stdout": "[{\"file\":\"UnicodeCase.md\",\"matches\":[{\"line\":1,\"text\":\"\u03c3\"},{\"line\":2,\"text\":\"\u03c2\"},{\"line\":3,\"text\":\"\u03a3\"}]},{\"file\":\"Unicode.md\",\"matches\":[{\"line\":1,\"text\":\"\u03c3 \u03a3 \u03c2\"},{\"line\":1,\"text\":\"\u03c3 \u03a3 \u03c2\"},{\"line\":1,\"text\":\"\u03c3 \u03a3 \u03c2\"}]}]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "\u03a3",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.238Z",
+        "durationMs": 37.4,
+        "stdout": "[\n  {\n    \"file\": \"Unicode.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"\u03c3 \u03a3 \u03c2\"\n      },\n      {\n        \"line\": 1,\n        \"text\": \"\u03c3 \u03a3 \u03c2\"\n      },\n      {\n        \"line\": 1,\n        \"text\": \"\u03c3 \u03a3 \u03c2\"\n      }\n    ]\n  },\n  {\n    \"file\": \"UnicodeCase.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"\u03c3\"\n      },\n      {\n        \"line\": 2,\n        \"text\": \"\u03c2\"\n      },\n      {\n        \"line\": 3,\n        \"text\": \"\u03a3\"\n      }\n    ]\n  }\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        {
+          "file": "Unicode.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "\u03c3 \u03a3 \u03c2"
+            },
+            {
+              "line": 1,
+              "text": "\u03c3 \u03a3 \u03c2"
+            },
+            {
+              "line": 1,
+              "text": "\u03c3 \u03a3 \u03c2"
+            }
+          ]
+        },
+        {
+          "file": "UnicodeCase.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "\u03c3"
+            },
+            {
+              "line": 2,
+              "text": "\u03c2"
+            },
+            {
+              "line": 3,
+              "text": "\u03a3"
+            }
+          ]
+        }
+      ],
+      "actual": [
+        {
+          "file": "Unicode.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "\u03c3 \u03a3 \u03c2"
+            },
+            {
+              "line": 1,
+              "text": "\u03c3 \u03a3 \u03c2"
+            },
+            {
+              "line": 1,
+              "text": "\u03c3 \u03a3 \u03c2"
+            }
+          ]
+        },
+        {
+          "file": "UnicodeCase.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "\u03c3"
+            },
+            {
+              "line": 2,
+              "text": "\u03c2"
+            },
+            {
+              "line": 3,
+              "text": "\u03a3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sigma-sensitive:search",
+      "case": {
+        "id": "sigma-sensitive",
+        "query": "\u03a3",
+        "case": true
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=\u03a3",
+          "format=json",
+          "case"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.276Z",
+        "durationMs": 2.48,
+        "stdout": "[\"UnicodeCase.md\",\"Unicode.md\"]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "\u03a3",
+          "--format",
+          "json",
+          "--case"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.278Z",
+        "durationMs": 37.66,
+        "stdout": "[\n  \"Unicode.md\",\n  \"UnicodeCase.md\"\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        "Unicode.md",
+        "UnicodeCase.md"
+      ],
+      "actual": [
+        "Unicode.md",
+        "UnicodeCase.md"
+      ]
+    },
+    {
+      "id": "sigma-sensitive:search:context",
+      "case": {
+        "id": "sigma-sensitive",
+        "query": "\u03a3",
+        "case": true
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=\u03a3",
+          "format=json",
+          "case"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.316Z",
+        "durationMs": 3.31,
+        "stdout": "[{\"file\":\"UnicodeCase.md\",\"matches\":[{\"line\":3,\"text\":\"\u03a3\"}]},{\"file\":\"Unicode.md\",\"matches\":[{\"line\":1,\"text\":\"\u03c3 \u03a3 \u03c2\"}]}]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "\u03a3",
+          "--format",
+          "json",
+          "--case"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.319Z",
+        "durationMs": 37.08,
+        "stdout": "[\n  {\n    \"file\": \"Unicode.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"\u03c3 \u03a3 \u03c2\"\n      }\n    ]\n  },\n  {\n    \"file\": \"UnicodeCase.md\",\n    \"matches\": [\n      {\n        \"line\": 3,\n        \"text\": \"\u03a3\"\n      }\n    ]\n  }\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        {
+          "file": "Unicode.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "\u03c3 \u03a3 \u03c2"
+            }
+          ]
+        },
+        {
+          "file": "UnicodeCase.md",
+          "matches": [
+            {
+              "line": 3,
+              "text": "\u03a3"
+            }
+          ]
+        }
+      ],
+      "actual": [
+        {
+          "file": "Unicode.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "\u03c3 \u03a3 \u03c2"
+            }
+          ]
+        },
+        {
+          "file": "UnicodeCase.md",
+          "matches": [
+            {
+              "line": 3,
+              "text": "\u03a3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kelvin-insensitive:search",
+      "case": {
+        "id": "kelvin-insensitive",
+        "query": "k"
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=k",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.357Z",
+        "durationMs": 2.64,
+        "stdout": "[\"VisibleIgnore.md\",\"Upper.MD\",\"UnicodeCase.md\",\"Unicode.md\",\"LiteralTokens.md\"]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "k",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.359Z",
+        "durationMs": 37.82,
+        "stdout": "[\n  \"LiteralTokens.md\",\n  \"Unicode.md\",\n  \"UnicodeCase.md\",\n  \"Upper.MD\",\n  \"VisibleIgnore.md\"\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        "LiteralTokens.md",
+        "Unicode.md",
+        "UnicodeCase.md",
+        "Upper.MD",
+        "VisibleIgnore.md"
+      ],
+      "actual": [
+        "LiteralTokens.md",
+        "Unicode.md",
+        "UnicodeCase.md",
+        "Upper.MD",
+        "VisibleIgnore.md"
+      ]
+    },
+    {
+      "id": "kelvin-insensitive:search:context",
+      "case": {
+        "id": "kelvin-insensitive",
+        "query": "k"
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=k",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.397Z",
+        "durationMs": 2.54,
+        "stdout": "[{\"file\":\"VisibleIgnore.md\",\"matches\":[{\"line\":1,\"text\":\"ignoretoken visible\"}]},{\"file\":\"Upper.MD\",\"matches\":[{\"line\":1,\"text\":\"uppercase extension token\"}]},{\"file\":\"UnicodeCase.md\",\"matches\":[{\"line\":5,\"text\":\"k\"},{\"line\":6,\"text\":\"K\"}]},{\"file\":\"Unicode.md\",\"matches\":[{\"line\":2,\"text\":\"\u212a K k\"},{\"line\":2,\"text\":\"\u212a K k\"}]},{\"file\":\"LiteralTokens.md\",\"matches\":[]}]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "k",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.400Z",
+        "durationMs": 38.47,
+        "stdout": "[\n  {\n    \"file\": \"LiteralTokens.md\",\n    \"matches\": []\n  },\n  {\n    \"file\": \"Unicode.md\",\n    \"matches\": [\n      {\n        \"line\": 2,\n        \"text\": \"\u212a K k\"\n      },\n      {\n        \"line\": 2,\n        \"text\": \"\u212a K k\"\n      }\n    ]\n  },\n  {\n    \"file\": \"UnicodeCase.md\",\n    \"matches\": [\n      {\n        \"line\": 5,\n        \"text\": \"k\"\n      },\n      {\n        \"line\": 6,\n        \"text\": \"K\"\n      }\n    ]\n  },\n  {\n    \"file\": \"Upper.MD\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"uppercase extension token\"\n      }\n    ]\n  },\n  {\n    \"file\": \"VisibleIgnore.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"ignoretoken visible\"\n      }\n    ]\n  }\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        {
+          "file": "LiteralTokens.md",
+          "matches": []
+        },
+        {
+          "file": "Unicode.md",
+          "matches": [
+            {
+              "line": 2,
+              "text": "\u212a K k"
+            },
+            {
+              "line": 2,
+              "text": "\u212a K k"
+            }
+          ]
+        },
+        {
+          "file": "UnicodeCase.md",
+          "matches": [
+            {
+              "line": 5,
+              "text": "k"
+            },
+            {
+              "line": 6,
+              "text": "K"
+            }
+          ]
+        },
+        {
+          "file": "Upper.MD",
+          "matches": [
+            {
+              "line": 1,
+              "text": "uppercase extension token"
+            }
+          ]
+        },
+        {
+          "file": "VisibleIgnore.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "ignoretoken visible"
+            }
+          ]
+        }
+      ],
+      "actual": [
+        {
+          "file": "LiteralTokens.md",
+          "matches": []
+        },
+        {
+          "file": "Unicode.md",
+          "matches": [
+            {
+              "line": 2,
+              "text": "\u212a K k"
+            },
+            {
+              "line": 2,
+              "text": "\u212a K k"
+            }
+          ]
+        },
+        {
+          "file": "UnicodeCase.md",
+          "matches": [
+            {
+              "line": 5,
+              "text": "k"
+            },
+            {
+              "line": 6,
+              "text": "K"
+            }
+          ]
+        },
+        {
+          "file": "Upper.MD",
+          "matches": [
+            {
+              "line": 1,
+              "text": "uppercase extension token"
+            }
+          ]
+        },
+        {
+          "file": "VisibleIgnore.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "ignoretoken visible"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kelvin-symbol-insensitive:search",
+      "case": {
+        "id": "kelvin-symbol-insensitive",
+        "query": "\u212a"
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=\u212a",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.438Z",
+        "durationMs": 2.74,
+        "stdout": "[\"UnicodeCase.md\",\"Unicode.md\"]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "\u212a",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.441Z",
+        "durationMs": 38.48,
+        "stdout": "[\n  \"Unicode.md\",\n  \"UnicodeCase.md\"\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        "Unicode.md",
+        "UnicodeCase.md"
+      ],
+      "actual": [
+        "Unicode.md",
+        "UnicodeCase.md"
+      ]
+    },
+    {
+      "id": "kelvin-symbol-insensitive:search:context",
+      "case": {
+        "id": "kelvin-symbol-insensitive",
+        "query": "\u212a"
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=\u212a",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.480Z",
+        "durationMs": 2.59,
+        "stdout": "[{\"file\":\"UnicodeCase.md\",\"matches\":[{\"line\":4,\"text\":\"\u212a\"}]},{\"file\":\"Unicode.md\",\"matches\":[{\"line\":2,\"text\":\"\u212a K k\"}]}]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "\u212a",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.482Z",
+        "durationMs": 32.3,
+        "stdout": "[\n  {\n    \"file\": \"Unicode.md\",\n    \"matches\": [\n      {\n        \"line\": 2,\n        \"text\": \"\u212a K k\"\n      }\n    ]\n  },\n  {\n    \"file\": \"UnicodeCase.md\",\n    \"matches\": [\n      {\n        \"line\": 4,\n        \"text\": \"\u212a\"\n      }\n    ]\n  }\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        {
+          "file": "Unicode.md",
+          "matches": [
+            {
+              "line": 2,
+              "text": "\u212a K k"
+            }
+          ]
+        },
+        {
+          "file": "UnicodeCase.md",
+          "matches": [
+            {
+              "line": 4,
+              "text": "\u212a"
+            }
+          ]
+        }
+      ],
+      "actual": [
+        {
+          "file": "Unicode.md",
+          "matches": [
+            {
+              "line": 2,
+              "text": "\u212a K k"
+            }
+          ]
+        },
+        {
+          "file": "UnicodeCase.md",
+          "matches": [
+            {
+              "line": 4,
+              "text": "\u212a"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kelvin-sensitive:search",
+      "case": {
+        "id": "kelvin-sensitive",
+        "query": "k",
+        "case": true
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=k",
+          "format=json",
+          "case"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.515Z",
+        "durationMs": 2.98,
+        "stdout": "[\"VisibleIgnore.md\",\"Upper.MD\",\"UnicodeCase.md\",\"Unicode.md\",\"LiteralTokens.md\"]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "k",
+          "--format",
+          "json",
+          "--case"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.518Z",
+        "durationMs": 35.24,
+        "stdout": "[\n  \"LiteralTokens.md\",\n  \"Unicode.md\",\n  \"UnicodeCase.md\",\n  \"Upper.MD\",\n  \"VisibleIgnore.md\"\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        "LiteralTokens.md",
+        "Unicode.md",
+        "UnicodeCase.md",
+        "Upper.MD",
+        "VisibleIgnore.md"
+      ],
+      "actual": [
+        "LiteralTokens.md",
+        "Unicode.md",
+        "UnicodeCase.md",
+        "Upper.MD",
+        "VisibleIgnore.md"
+      ]
+    },
+    {
+      "id": "kelvin-sensitive:search:context",
+      "case": {
+        "id": "kelvin-sensitive",
+        "query": "k",
+        "case": true
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=k",
+          "format=json",
+          "case"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.553Z",
+        "durationMs": 2.3,
+        "stdout": "[{\"file\":\"VisibleIgnore.md\",\"matches\":[{\"line\":1,\"text\":\"ignoretoken visible\"}]},{\"file\":\"Upper.MD\",\"matches\":[{\"line\":1,\"text\":\"uppercase extension token\"}]},{\"file\":\"UnicodeCase.md\",\"matches\":[{\"line\":5,\"text\":\"k\"}]},{\"file\":\"Unicode.md\",\"matches\":[{\"line\":2,\"text\":\"\u212a K k\"}]},{\"file\":\"LiteralTokens.md\",\"matches\":[]}]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "k",
+          "--format",
+          "json",
+          "--case"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.555Z",
+        "durationMs": 36.83,
+        "stdout": "[\n  {\n    \"file\": \"LiteralTokens.md\",\n    \"matches\": []\n  },\n  {\n    \"file\": \"Unicode.md\",\n    \"matches\": [\n      {\n        \"line\": 2,\n        \"text\": \"\u212a K k\"\n      }\n    ]\n  },\n  {\n    \"file\": \"UnicodeCase.md\",\n    \"matches\": [\n      {\n        \"line\": 5,\n        \"text\": \"k\"\n      }\n    ]\n  },\n  {\n    \"file\": \"Upper.MD\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"uppercase extension token\"\n      }\n    ]\n  },\n  {\n    \"file\": \"VisibleIgnore.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"ignoretoken visible\"\n      }\n    ]\n  }\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        {
+          "file": "LiteralTokens.md",
+          "matches": []
+        },
+        {
+          "file": "Unicode.md",
+          "matches": [
+            {
+              "line": 2,
+              "text": "\u212a K k"
+            }
+          ]
+        },
+        {
+          "file": "UnicodeCase.md",
+          "matches": [
+            {
+              "line": 5,
+              "text": "k"
+            }
+          ]
+        },
+        {
+          "file": "Upper.MD",
+          "matches": [
+            {
+              "line": 1,
+              "text": "uppercase extension token"
+            }
+          ]
+        },
+        {
+          "file": "VisibleIgnore.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "ignoretoken visible"
+            }
+          ]
+        }
+      ],
+      "actual": [
+        {
+          "file": "LiteralTokens.md",
+          "matches": []
+        },
+        {
+          "file": "Unicode.md",
+          "matches": [
+            {
+              "line": 2,
+              "text": "\u212a K k"
+            }
+          ]
+        },
+        {
+          "file": "UnicodeCase.md",
+          "matches": [
+            {
+              "line": 5,
+              "text": "k"
+            }
+          ]
+        },
+        {
+          "file": "Upper.MD",
+          "matches": [
+            {
+              "line": 1,
+              "text": "uppercase extension token"
+            }
+          ]
+        },
+        {
+          "file": "VisibleIgnore.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "ignoretoken visible"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "turkish-insensitive:search",
+      "case": {
+        "id": "turkish-insensitive",
+        "query": "i"
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=i",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.592Z",
+        "durationMs": 2.63,
+        "stdout": "[\"Whitespace.md\",\"VisibleIgnore.md\",\"Upper.MD\",\"UnicodeCase.md\",\"Unicode.md\",\"ProjectsElse/Outside.md\",\"Projects.md\",\"Projects/Inside.md\",\"NoHit.md\",\"NameNeedle.md\",\"LiteralTokens.md\"]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "i",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.595Z",
+        "durationMs": 32.63,
+        "stdout": "[\n  \"LiteralTokens.md\",\n  \"NameNeedle.md\",\n  \"NoHit.md\",\n  \"Projects.md\",\n  \"Projects/Inside.md\",\n  \"ProjectsElse/Outside.md\",\n  \"Unicode.md\",\n  \"UnicodeCase.md\",\n  \"Upper.MD\",\n  \"VisibleIgnore.md\",\n  \"Whitespace.md\"\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        "LiteralTokens.md",
+        "NameNeedle.md",
+        "NoHit.md",
+        "Projects.md",
+        "Projects/Inside.md",
+        "ProjectsElse/Outside.md",
+        "Unicode.md",
+        "UnicodeCase.md",
+        "Upper.MD",
+        "VisibleIgnore.md",
+        "Whitespace.md"
+      ],
+      "actual": [
+        "LiteralTokens.md",
+        "NameNeedle.md",
+        "NoHit.md",
+        "Projects.md",
+        "Projects/Inside.md",
+        "ProjectsElse/Outside.md",
+        "Unicode.md",
+        "UnicodeCase.md",
+        "Upper.MD",
+        "VisibleIgnore.md",
+        "Whitespace.md"
+      ]
+    },
+    {
+      "id": "turkish-insensitive:search:context",
+      "case": {
+        "id": "turkish-insensitive",
+        "query": "i"
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=i",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.628Z",
+        "durationMs": 4.1,
+        "stdout": "[{\"file\":\"Whitespace.md\",\"matches\":[]},{\"file\":\"VisibleIgnore.md\",\"matches\":[{\"line\":1,\"text\":\"ignoretoken visible\"},{\"line\":1,\"text\":\"ignoretoken visible\"},{\"line\":1,\"text\":\"ignoretoken visible\"}]},{\"file\":\"Upper.MD\",\"matches\":[{\"line\":1,\"text\":\"uppercase extension token\"}]},{\"file\":\"UnicodeCase.md\",\"matches\":[]},{\"file\":\"Unicode.md\",\"matches\":[{\"line\":3,\"text\":\"\u0130 i I \u0131\"},{\"line\":3,\"text\":\"\u0130 i I \u0131\"}]},{\"file\":\"ProjectsElse/Outside.md\",\"matches\":[]},{\"file\":\"Projects.md\",\"matches\":[{\"line\":1,\"text\":\"boundary file at root\"}]},{\"file\":\"Projects/Inside.md\",\"matches\":[]},{\"file\":\"NoHit.md\",\"matches\":[{\"line\":1,\"text\":\"nothing special\"},{\"line\":1,\"text\":\"nothing special\"}]},{\"file\":\"NameNeedle.md\",\"matches\":[{\"line\":1,\"text\":\"# Ordinary body\"}]},{\"file\":\"LiteralTokens.md\",\"matches\":[{\"line\":4,\"text\":\"O'Reilly source\"}]}]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "i",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.632Z",
+        "durationMs": 36.04,
+        "stdout": "[\n  {\n    \"file\": \"LiteralTokens.md\",\n    \"matches\": [\n      {\n        \"line\": 4,\n        \"text\": \"O'Reilly source\"\n      }\n    ]\n  },\n  {\n    \"file\": \"NameNeedle.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"# Ordinary body\"\n      }\n    ]\n  },\n  {\n    \"file\": \"NoHit.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"nothing special\"\n      },\n      {\n        \"line\": 1,\n        \"text\": \"nothing special\"\n      }\n    ]\n  },\n  {\n    \"file\": \"Projects.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"boundary file at root\"\n      }\n    ]\n  },\n  {\n    \"file\": \"Projects/Inside.md\",\n    \"matches\": []\n  },\n  {\n    \"file\": \"ProjectsElse/Outside.md\",\n    \"matches\": []\n  },\n  {\n    \"file\": \"Unicode.md\",\n    \"matches\": [\n      {\n        \"line\": 3,\n        \"text\": \"\u0130 i I \u0131\"\n      },\n      {\n        \"line\": 3,\n        \"text\": \"\u0130 i I \u0131\"\n      }\n    ]\n  },\n  {\n    \"file\": \"UnicodeCase.md\",\n    \"matches\": []\n  },\n  {\n    \"file\": \"Upper.MD\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"uppercase extension token\"\n      }\n    ]\n  },\n  {\n    \"file\": \"VisibleIgnore.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"ignoretoken visible\"\n      },\n      {\n        \"line\": 1,\n        \"text\": \"ignoretoken visible\"\n      },\n      {\n        \"line\": 1,\n        \"text\": \"ignoretoken visible\"\n      }\n    ]\n  },\n  {\n    \"file\": \"Whitespace.md\",\n    \"matches\": []\n  }\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        {
+          "file": "LiteralTokens.md",
+          "matches": [
+            {
+              "line": 4,
+              "text": "O'Reilly source"
+            }
+          ]
+        },
+        {
+          "file": "NameNeedle.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "# Ordinary body"
+            }
+          ]
+        },
+        {
+          "file": "NoHit.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "nothing special"
+            },
+            {
+              "line": 1,
+              "text": "nothing special"
+            }
+          ]
+        },
+        {
+          "file": "Projects.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "boundary file at root"
+            }
+          ]
+        },
+        {
+          "file": "Projects/Inside.md",
+          "matches": []
+        },
+        {
+          "file": "ProjectsElse/Outside.md",
+          "matches": []
+        },
+        {
+          "file": "Unicode.md",
+          "matches": [
+            {
+              "line": 3,
+              "text": "\u0130 i I \u0131"
+            },
+            {
+              "line": 3,
+              "text": "\u0130 i I \u0131"
+            }
+          ]
+        },
+        {
+          "file": "UnicodeCase.md",
+          "matches": []
+        },
+        {
+          "file": "Upper.MD",
+          "matches": [
+            {
+              "line": 1,
+              "text": "uppercase extension token"
+            }
+          ]
+        },
+        {
+          "file": "VisibleIgnore.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "ignoretoken visible"
+            },
+            {
+              "line": 1,
+              "text": "ignoretoken visible"
+            },
+            {
+              "line": 1,
+              "text": "ignoretoken visible"
+            }
+          ]
+        },
+        {
+          "file": "Whitespace.md",
+          "matches": []
+        }
+      ],
+      "actual": [
+        {
+          "file": "LiteralTokens.md",
+          "matches": [
+            {
+              "line": 4,
+              "text": "O'Reilly source"
+            }
+          ]
+        },
+        {
+          "file": "NameNeedle.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "# Ordinary body"
+            }
+          ]
+        },
+        {
+          "file": "NoHit.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "nothing special"
+            },
+            {
+              "line": 1,
+              "text": "nothing special"
+            }
+          ]
+        },
+        {
+          "file": "Projects.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "boundary file at root"
+            }
+          ]
+        },
+        {
+          "file": "Projects/Inside.md",
+          "matches": []
+        },
+        {
+          "file": "ProjectsElse/Outside.md",
+          "matches": []
+        },
+        {
+          "file": "Unicode.md",
+          "matches": [
+            {
+              "line": 3,
+              "text": "\u0130 i I \u0131"
+            },
+            {
+              "line": 3,
+              "text": "\u0130 i I \u0131"
+            }
+          ]
+        },
+        {
+          "file": "UnicodeCase.md",
+          "matches": []
+        },
+        {
+          "file": "Upper.MD",
+          "matches": [
+            {
+              "line": 1,
+              "text": "uppercase extension token"
+            }
+          ]
+        },
+        {
+          "file": "VisibleIgnore.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "ignoretoken visible"
+            },
+            {
+              "line": 1,
+              "text": "ignoretoken visible"
+            },
+            {
+              "line": 1,
+              "text": "ignoretoken visible"
+            }
+          ]
+        },
+        {
+          "file": "Whitespace.md",
+          "matches": []
+        }
+      ]
+    },
+    {
+      "id": "apostrophe-literal:search",
+      "case": {
+        "id": "apostrophe-literal",
+        "query": "O'Reilly"
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=O'Reilly",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.668Z",
+        "durationMs": 2.84,
+        "stdout": "[\"LiteralTokens.md\"]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "O'Reilly",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.671Z",
+        "durationMs": 34.63,
+        "stdout": "[\n  \"LiteralTokens.md\"\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        "LiteralTokens.md"
+      ],
+      "actual": [
+        "LiteralTokens.md"
+      ]
+    },
+    {
+      "id": "apostrophe-literal:search:context",
+      "case": {
+        "id": "apostrophe-literal",
+        "query": "O'Reilly"
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=O'Reilly",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.705Z",
+        "durationMs": 2.91,
+        "stdout": "[{\"file\":\"LiteralTokens.md\",\"matches\":[{\"line\":4,\"text\":\"O'Reilly source\"}]}]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "O'Reilly",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.708Z",
+        "durationMs": 37.34,
+        "stdout": "[\n  {\n    \"file\": \"LiteralTokens.md\",\n    \"matches\": [\n      {\n        \"line\": 4,\n        \"text\": \"O'Reilly source\"\n      }\n    ]\n  }\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        {
+          "file": "LiteralTokens.md",
+          "matches": [
+            {
+              "line": 4,
+              "text": "O'Reilly source"
+            }
+          ]
+        }
+      ],
+      "actual": [
+        {
+          "file": "LiteralTokens.md",
+          "matches": [
+            {
+              "line": 4,
+              "text": "O'Reilly source"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tab-inside-term:search",
+      "case": {
+        "id": "tab-inside-term",
+        "query": "red\tgreen"
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=red\tgreen",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.746Z",
+        "durationMs": 2.71,
+        "stdout": "[\"LiteralTokens.md\"]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "red\tgreen",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.748Z",
+        "durationMs": 35.13,
+        "stdout": "[\n  \"LiteralTokens.md\"\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        "LiteralTokens.md"
+      ],
+      "actual": [
+        "LiteralTokens.md"
+      ]
+    },
+    {
+      "id": "tab-inside-term:search:context",
+      "case": {
+        "id": "tab-inside-term",
+        "query": "red\tgreen"
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=red\tgreen",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.784Z",
+        "durationMs": 2.71,
+        "stdout": "[{\"file\":\"LiteralTokens.md\",\"matches\":[{\"line\":1,\"text\":\"red\\tgreen\"}]}]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "red\tgreen",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.786Z",
+        "durationMs": 40.52,
+        "stdout": "[\n  {\n    \"file\": \"LiteralTokens.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"red\\tgreen\"\n      }\n    ]\n  }\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        {
+          "file": "LiteralTokens.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "red\tgreen"
+            }
+          ]
+        }
+      ],
+      "actual": [
+        {
+          "file": "LiteralTokens.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "red\tgreen"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "newline-inside-term:search",
+      "case": {
+        "id": "newline-inside-term",
+        "query": "red\ngreen"
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=red\ngreen",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.827Z",
+        "durationMs": 2.9,
+        "stdout": "[\"LiteralTokens.md\",\"Alpha.md\"]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "red\ngreen",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.830Z",
+        "durationMs": 42.62,
+        "stdout": "[\n  \"Alpha.md\",\n  \"LiteralTokens.md\"\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        "Alpha.md",
+        "LiteralTokens.md"
+      ],
+      "actual": [
+        "Alpha.md",
+        "LiteralTokens.md"
+      ]
+    },
+    {
+      "id": "newline-inside-term:search:context",
+      "case": {
+        "id": "newline-inside-term",
+        "query": "red\ngreen"
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=red\ngreen",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.873Z",
+        "durationMs": 2.62,
+        "stdout": "[{\"file\":\"LiteralTokens.md\",\"matches\":[{\"line\":2,\"text\":\"red\"}]},{\"file\":\"Alpha.md\",\"matches\":[{\"line\":5,\"text\":\"red\"}]}]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "red\ngreen",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.875Z",
+        "durationMs": 34.8,
+        "stdout": "[\n  {\n    \"file\": \"Alpha.md\",\n    \"matches\": [\n      {\n        \"line\": 5,\n        \"text\": \"red\"\n      }\n    ]\n  },\n  {\n    \"file\": \"LiteralTokens.md\",\n    \"matches\": [\n      {\n        \"line\": 2,\n        \"text\": \"red\"\n      }\n    ]\n  }\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        {
+          "file": "Alpha.md",
+          "matches": [
+            {
+              "line": 5,
+              "text": "red"
+            }
+          ]
+        },
+        {
+          "file": "LiteralTokens.md",
+          "matches": [
+            {
+              "line": 2,
+              "text": "red"
+            }
+          ]
+        }
+      ],
+      "actual": [
+        {
+          "file": "Alpha.md",
+          "matches": [
+            {
+              "line": 5,
+              "text": "red"
+            }
+          ]
+        },
+        {
+          "file": "LiteralTokens.md",
+          "matches": [
+            {
+              "line": 2,
+              "text": "red"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tab-only-term:search",
+      "case": {
+        "id": "tab-only-term",
+        "query": "\t"
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=\t",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.910Z",
+        "durationMs": 2.69,
+        "stdout": "[\"Whitespace.md\",\"LiteralTokens.md\"]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "\t",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.913Z",
+        "durationMs": 44.16,
+        "stdout": "[\n  \"LiteralTokens.md\",\n  \"Whitespace.md\"\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        "LiteralTokens.md",
+        "Whitespace.md"
+      ],
+      "actual": [
+        "LiteralTokens.md",
+        "Whitespace.md"
+      ]
+    },
+    {
+      "id": "tab-only-term:search:context",
+      "case": {
+        "id": "tab-only-term",
+        "query": "\t"
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=\t",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.957Z",
+        "durationMs": 2.65,
+        "stdout": "[{\"file\":\"Whitespace.md\",\"matches\":[{\"line\":2,\"text\":\"needle\"},{\"line\":2,\"text\":\"needle\"}]},{\"file\":\"LiteralTokens.md\",\"matches\":[{\"line\":1,\"text\":\"red\\tgreen\"}]}]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "\t",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.960Z",
+        "durationMs": 34.41,
+        "stdout": "[\n  {\n    \"file\": \"LiteralTokens.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"red\\tgreen\"\n      }\n    ]\n  },\n  {\n    \"file\": \"Whitespace.md\",\n    \"matches\": [\n      {\n        \"line\": 2,\n        \"text\": \"needle\"\n      },\n      {\n        \"line\": 2,\n        \"text\": \"needle\"\n      }\n    ]\n  }\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        {
+          "file": "LiteralTokens.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "red\tgreen"
+            }
+          ]
+        },
+        {
+          "file": "Whitespace.md",
+          "matches": [
+            {
+              "line": 2,
+              "text": "needle"
+            },
+            {
+              "line": 2,
+              "text": "needle"
+            }
+          ]
+        }
+      ],
+      "actual": [
+        {
+          "file": "LiteralTokens.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "red\tgreen"
+            }
+          ]
+        },
+        {
+          "file": "Whitespace.md",
+          "matches": [
+            {
+              "line": 2,
+              "text": "needle"
+            },
+            {
+              "line": 2,
+              "text": "needle"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "newline-only-term:search",
+      "case": {
+        "id": "newline-only-term",
+        "query": "\n"
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=\n",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.994Z",
+        "durationMs": 3.14,
+        "stdout": "[\"alpha-name.md\",\"Whitespace.md\",\"VisibleIgnore.md\",\"Upper.MD\",\"UnicodeCase.md\",\"Unicode.md\",\"ProjectsElse/Outside.md\",\"Projects.md\",\"Projects/Sub/Deep.md\",\"Projects/Inside.md\",\"NoHit.md\",\"NameNeedle.md\",\"LiteralTokens.md\",\"Alpha.md\",\"Adjacent.md\"]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "\n",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:26.997Z",
+        "durationMs": 42.03,
+        "stdout": "[\n  \"Adjacent.md\",\n  \"Alpha.md\",\n  \"LiteralTokens.md\",\n  \"NameNeedle.md\",\n  \"NoHit.md\",\n  \"Projects.md\",\n  \"Projects/Inside.md\",\n  \"Projects/Sub/Deep.md\",\n  \"ProjectsElse/Outside.md\",\n  \"Unicode.md\",\n  \"UnicodeCase.md\",\n  \"Upper.MD\",\n  \"VisibleIgnore.md\",\n  \"Whitespace.md\",\n  \"alpha-name.md\"\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        "Adjacent.md",
+        "Alpha.md",
+        "LiteralTokens.md",
+        "NameNeedle.md",
+        "NoHit.md",
+        "Projects.md",
+        "Projects/Inside.md",
+        "Projects/Sub/Deep.md",
+        "ProjectsElse/Outside.md",
+        "Unicode.md",
+        "UnicodeCase.md",
+        "Upper.MD",
+        "VisibleIgnore.md",
+        "Whitespace.md",
+        "alpha-name.md"
+      ],
+      "actual": [
+        "Adjacent.md",
+        "Alpha.md",
+        "LiteralTokens.md",
+        "NameNeedle.md",
+        "NoHit.md",
+        "Projects.md",
+        "Projects/Inside.md",
+        "Projects/Sub/Deep.md",
+        "ProjectsElse/Outside.md",
+        "Unicode.md",
+        "UnicodeCase.md",
+        "Upper.MD",
+        "VisibleIgnore.md",
+        "Whitespace.md",
+        "alpha-name.md"
+      ]
+    },
+    {
+      "id": "newline-only-term:search:context",
+      "case": {
+        "id": "newline-only-term",
+        "query": "\n"
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=\n",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.040Z",
+        "durationMs": 2.38,
+        "stdout": "[{\"file\":\"alpha-name.md\",\"matches\":[{\"line\":1,\"text\":\"beta appears here\"},{\"line\":2,\"text\":\"gamma appears elsewhere\"}]},{\"file\":\"Whitespace.md\",\"matches\":[{\"line\":1,\"text\":\"padded needle\"},{\"line\":2,\"text\":\"needle\"}]},{\"file\":\"VisibleIgnore.md\",\"matches\":[{\"line\":1,\"text\":\"ignoretoken visible\"}]},{\"file\":\"Upper.MD\",\"matches\":[{\"line\":1,\"text\":\"uppercase extension token\"}]},{\"file\":\"UnicodeCase.md\",\"matches\":[{\"line\":1,\"text\":\"\u03c3\"},{\"line\":2,\"text\":\"\u03c2\"},{\"line\":3,\"text\":\"\u03a3\"},{\"line\":4,\"text\":\"\u212a\"},{\"line\":5,\"text\":\"k\"},{\"line\":6,\"text\":\"K\"}]},{\"file\":\"Unicode.md\",\"matches\":[{\"line\":1,\"text\":\"\u03c3 \u03a3 \u03c2\"},{\"line\":2,\"text\":\"\u212a K k\"},{\"line\":3,\"text\":\"\u0130 i I \u0131\"}]},{\"file\":\"ProjectsElse/Outside.md\",\"matches\":[{\"line\":1,\"text\":\"boundary apple\"}]},{\"file\":\"Projects.md\",\"matches\":[{\"line\":1,\"text\":\"boundary file at root\"}]},{\"file\":\"Projects/Sub/Deep.md\",\"matches\":[{\"line\":1,\"text\":\"boundary deep\"}]},{\"file\":\"Projects/Inside.md\",\"matches\":[{\"line\":1,\"text\":\"boundary apple\"}]},{\"file\":\"NoHit.md\",\"matches\":[{\"line\":1,\"text\":\"nothing special\"}]},{\"file\":\"NameNeedle.md\",\"matches\":[{\"line\":1,\"text\":\"# Ordinary body\"},{\"line\":2,\"text\":\"No requested word here.\"}]},{\"file\":\"LiteralTokens.md\",\"matches\":[{\"line\":1,\"text\":\"red\\tgreen\"},{\"line\":2,\"text\":\"red\"},{\"line\":3,\"text\":\"green\"},{\"line\":4,\"text\":\"O'Reilly source\"},{\"line\":5,\"text\":\"a+b and a.b\"},{\"line\":6,\"text\":\"red\u00a0green\"}]},{\"file\":\"Alpha.md\",\"matches\":[{\"line\":1,\"text\":\"# Alpha\"},{\"line\":2,\"text\":\"apple Apple APPLE\"},{\"line\":3,\"text\":\"red green\"},{\"line\":4,\"text\":\"red and red\"},{\"line\":5,\"text\":\"red\"},{\"line\":6,\"text\":\"green\"}]},{\"file\":\"Adjacent.md\",\"matches\":[{\"line\":1,\"text\":\"aaaa\"},{\"line\":2,\"text\":\"aa aa\"}]}]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "\n",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.042Z",
+        "durationMs": 39.83,
+        "stdout": "[\n  {\n    \"file\": \"Adjacent.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"aaaa\"\n      },\n      {\n        \"line\": 2,\n        \"text\": \"aa aa\"\n      }\n    ]\n  },\n  {\n    \"file\": \"Alpha.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"# Alpha\"\n      },\n      {\n        \"line\": 2,\n        \"text\": \"apple Apple APPLE\"\n      },\n      {\n        \"line\": 3,\n        \"text\": \"red green\"\n      },\n      {\n        \"line\": 4,\n        \"text\": \"red and red\"\n      },\n      {\n        \"line\": 5,\n        \"text\": \"red\"\n      },\n      {\n        \"line\": 6,\n        \"text\": \"green\"\n      }\n    ]\n  },\n  {\n    \"file\": \"LiteralTokens.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"red\\tgreen\"\n      },\n      {\n        \"line\": 2,\n        \"text\": \"red\"\n      },\n      {\n        \"line\": 3,\n        \"text\": \"green\"\n      },\n      {\n        \"line\": 4,\n        \"text\": \"O'Reilly source\"\n      },\n      {\n        \"line\": 5,\n        \"text\": \"a+b and a.b\"\n      },\n      {\n        \"line\": 6,\n        \"text\": \"red\u00a0green\"\n      }\n    ]\n  },\n  {\n    \"file\": \"NameNeedle.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"# Ordinary body\"\n      },\n      {\n        \"line\": 2,\n        \"text\": \"No requested word here.\"\n      }\n    ]\n  },\n  {\n    \"file\": \"NoHit.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"nothing special\"\n      }\n    ]\n  },\n  {\n    \"file\": \"Projects.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"boundary file at root\"\n      }\n    ]\n  },\n  {\n    \"file\": \"Projects/Inside.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"boundary apple\"\n      }\n    ]\n  },\n  {\n    \"file\": \"Projects/Sub/Deep.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"boundary deep\"\n      }\n    ]\n  },\n  {\n    \"file\": \"ProjectsElse/Outside.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"boundary apple\"\n      }\n    ]\n  },\n  {\n    \"file\": \"Unicode.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"\u03c3 \u03a3 \u03c2\"\n      },\n      {\n        \"line\": 2,\n        \"text\": \"\u212a K k\"\n      },\n      {\n        \"line\": 3,\n        \"text\": \"\u0130 i I \u0131\"\n      }\n    ]\n  },\n  {\n    \"file\": \"UnicodeCase.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"\u03c3\"\n      },\n      {\n        \"line\": 2,\n        \"text\": \"\u03c2\"\n      },\n      {\n        \"line\": 3,\n        \"text\": \"\u03a3\"\n      },\n      {\n        \"line\": 4,\n        \"text\": \"\u212a\"\n      },\n      {\n        \"line\": 5,\n        \"text\": \"k\"\n      },\n      {\n        \"line\": 6,\n        \"text\": \"K\"\n      }\n    ]\n  },\n  {\n    \"file\": \"Upper.MD\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"uppercase extension token\"\n      }\n    ]\n  },\n  {\n    \"file\": \"VisibleIgnore.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"ignoretoken visible\"\n      }\n    ]\n  },\n  {\n    \"file\": \"Whitespace.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"padded needle\"\n      },\n      {\n        \"line\": 2,\n        \"text\": \"needle\"\n      }\n    ]\n  },\n  {\n    \"file\": \"alpha-name.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"beta appears here\"\n      },\n      {\n        \"line\": 2,\n        \"text\": \"gamma appears elsewhere\"\n      }\n    ]\n  }\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        {
+          "file": "Adjacent.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "aaaa"
+            },
+            {
+              "line": 2,
+              "text": "aa aa"
+            }
+          ]
+        },
+        {
+          "file": "Alpha.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "# Alpha"
+            },
+            {
+              "line": 2,
+              "text": "apple Apple APPLE"
+            },
+            {
+              "line": 3,
+              "text": "red green"
+            },
+            {
+              "line": 4,
+              "text": "red and red"
+            },
+            {
+              "line": 5,
+              "text": "red"
+            },
+            {
+              "line": 6,
+              "text": "green"
+            }
+          ]
+        },
+        {
+          "file": "LiteralTokens.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "red\tgreen"
+            },
+            {
+              "line": 2,
+              "text": "red"
+            },
+            {
+              "line": 3,
+              "text": "green"
+            },
+            {
+              "line": 4,
+              "text": "O'Reilly source"
+            },
+            {
+              "line": 5,
+              "text": "a+b and a.b"
+            },
+            {
+              "line": 6,
+              "text": "red\u00a0green"
+            }
+          ]
+        },
+        {
+          "file": "NameNeedle.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "# Ordinary body"
+            },
+            {
+              "line": 2,
+              "text": "No requested word here."
+            }
+          ]
+        },
+        {
+          "file": "NoHit.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "nothing special"
+            }
+          ]
+        },
+        {
+          "file": "Projects.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "boundary file at root"
+            }
+          ]
+        },
+        {
+          "file": "Projects/Inside.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "boundary apple"
+            }
+          ]
+        },
+        {
+          "file": "Projects/Sub/Deep.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "boundary deep"
+            }
+          ]
+        },
+        {
+          "file": "ProjectsElse/Outside.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "boundary apple"
+            }
+          ]
+        },
+        {
+          "file": "Unicode.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "\u03c3 \u03a3 \u03c2"
+            },
+            {
+              "line": 2,
+              "text": "\u212a K k"
+            },
+            {
+              "line": 3,
+              "text": "\u0130 i I \u0131"
+            }
+          ]
+        },
+        {
+          "file": "UnicodeCase.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "\u03c3"
+            },
+            {
+              "line": 2,
+              "text": "\u03c2"
+            },
+            {
+              "line": 3,
+              "text": "\u03a3"
+            },
+            {
+              "line": 4,
+              "text": "\u212a"
+            },
+            {
+              "line": 5,
+              "text": "k"
+            },
+            {
+              "line": 6,
+              "text": "K"
+            }
+          ]
+        },
+        {
+          "file": "Upper.MD",
+          "matches": [
+            {
+              "line": 1,
+              "text": "uppercase extension token"
+            }
+          ]
+        },
+        {
+          "file": "VisibleIgnore.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "ignoretoken visible"
+            }
+          ]
+        },
+        {
+          "file": "Whitespace.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "padded needle"
+            },
+            {
+              "line": 2,
+              "text": "needle"
+            }
+          ]
+        },
+        {
+          "file": "alpha-name.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "beta appears here"
+            },
+            {
+              "line": 2,
+              "text": "gamma appears elsewhere"
+            }
+          ]
+        }
+      ],
+      "actual": [
+        {
+          "file": "Adjacent.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "aaaa"
+            },
+            {
+              "line": 2,
+              "text": "aa aa"
+            }
+          ]
+        },
+        {
+          "file": "Alpha.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "# Alpha"
+            },
+            {
+              "line": 2,
+              "text": "apple Apple APPLE"
+            },
+            {
+              "line": 3,
+              "text": "red green"
+            },
+            {
+              "line": 4,
+              "text": "red and red"
+            },
+            {
+              "line": 5,
+              "text": "red"
+            },
+            {
+              "line": 6,
+              "text": "green"
+            }
+          ]
+        },
+        {
+          "file": "LiteralTokens.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "red\tgreen"
+            },
+            {
+              "line": 2,
+              "text": "red"
+            },
+            {
+              "line": 3,
+              "text": "green"
+            },
+            {
+              "line": 4,
+              "text": "O'Reilly source"
+            },
+            {
+              "line": 5,
+              "text": "a+b and a.b"
+            },
+            {
+              "line": 6,
+              "text": "red\u00a0green"
+            }
+          ]
+        },
+        {
+          "file": "NameNeedle.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "# Ordinary body"
+            },
+            {
+              "line": 2,
+              "text": "No requested word here."
+            }
+          ]
+        },
+        {
+          "file": "NoHit.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "nothing special"
+            }
+          ]
+        },
+        {
+          "file": "Projects.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "boundary file at root"
+            }
+          ]
+        },
+        {
+          "file": "Projects/Inside.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "boundary apple"
+            }
+          ]
+        },
+        {
+          "file": "Projects/Sub/Deep.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "boundary deep"
+            }
+          ]
+        },
+        {
+          "file": "ProjectsElse/Outside.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "boundary apple"
+            }
+          ]
+        },
+        {
+          "file": "Unicode.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "\u03c3 \u03a3 \u03c2"
+            },
+            {
+              "line": 2,
+              "text": "\u212a K k"
+            },
+            {
+              "line": 3,
+              "text": "\u0130 i I \u0131"
+            }
+          ]
+        },
+        {
+          "file": "UnicodeCase.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "\u03c3"
+            },
+            {
+              "line": 2,
+              "text": "\u03c2"
+            },
+            {
+              "line": 3,
+              "text": "\u03a3"
+            },
+            {
+              "line": 4,
+              "text": "\u212a"
+            },
+            {
+              "line": 5,
+              "text": "k"
+            },
+            {
+              "line": 6,
+              "text": "K"
+            }
+          ]
+        },
+        {
+          "file": "Upper.MD",
+          "matches": [
+            {
+              "line": 1,
+              "text": "uppercase extension token"
+            }
+          ]
+        },
+        {
+          "file": "VisibleIgnore.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "ignoretoken visible"
+            }
+          ]
+        },
+        {
+          "file": "Whitespace.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "padded needle"
+            },
+            {
+              "line": 2,
+              "text": "needle"
+            }
+          ]
+        },
+        {
+          "file": "alpha-name.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "beta appears here"
+            },
+            {
+              "line": 2,
+              "text": "gamma appears elsewhere"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nbsp-inside-term:search",
+      "case": {
+        "id": "nbsp-inside-term",
+        "query": "red\u00a0green"
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=red\u00a0green",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.082Z",
+        "durationMs": 2.51,
+        "stdout": "[\"LiteralTokens.md\"]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "red\u00a0green",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.085Z",
+        "durationMs": 32.15,
+        "stdout": "[\n  \"LiteralTokens.md\"\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        "LiteralTokens.md"
+      ],
+      "actual": [
+        "LiteralTokens.md"
+      ]
+    },
+    {
+      "id": "nbsp-inside-term:search:context",
+      "case": {
+        "id": "nbsp-inside-term",
+        "query": "red\u00a0green"
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=red\u00a0green",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.117Z",
+        "durationMs": 2.97,
+        "stdout": "[{\"file\":\"LiteralTokens.md\",\"matches\":[{\"line\":6,\"text\":\"red\u00a0green\"}]}]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "red\u00a0green",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.120Z",
+        "durationMs": 33.14,
+        "stdout": "[\n  {\n    \"file\": \"LiteralTokens.md\",\n    \"matches\": [\n      {\n        \"line\": 6,\n        \"text\": \"red\u00a0green\"\n      }\n    ]\n  }\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        {
+          "file": "LiteralTokens.md",
+          "matches": [
+            {
+              "line": 6,
+              "text": "red\u00a0green"
+            }
+          ]
+        }
+      ],
+      "actual": [
+        {
+          "file": "LiteralTokens.md",
+          "matches": [
+            {
+              "line": 6,
+              "text": "red\u00a0green"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "padding-spaces:search",
+      "case": {
+        "id": "padding-spaces",
+        "query": "  red  green  "
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=  red  green  ",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.153Z",
+        "durationMs": 2.57,
+        "stdout": "[\"LiteralTokens.md\",\"Alpha.md\"]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "  red  green  ",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.156Z",
+        "durationMs": 41.72,
+        "stdout": "[\n  \"Alpha.md\",\n  \"LiteralTokens.md\"\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        "Alpha.md",
+        "LiteralTokens.md"
+      ],
+      "actual": [
+        "Alpha.md",
+        "LiteralTokens.md"
+      ]
+    },
+    {
+      "id": "padding-spaces:search:context",
+      "case": {
+        "id": "padding-spaces",
+        "query": "  red  green  "
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=  red  green  ",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.198Z",
+        "durationMs": 2.4,
+        "stdout": "[{\"file\":\"LiteralTokens.md\",\"matches\":[{\"line\":1,\"text\":\"red\\tgreen\"},{\"line\":1,\"text\":\"red\\tgreen\"},{\"line\":2,\"text\":\"red\"},{\"line\":3,\"text\":\"green\"},{\"line\":6,\"text\":\"red\u00a0green\"},{\"line\":6,\"text\":\"red\u00a0green\"}]},{\"file\":\"Alpha.md\",\"matches\":[{\"line\":3,\"text\":\"red green\"},{\"line\":3,\"text\":\"red green\"},{\"line\":4,\"text\":\"red and red\"},{\"line\":4,\"text\":\"red and red\"},{\"line\":5,\"text\":\"red\"},{\"line\":6,\"text\":\"green\"}]}]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "  red  green  ",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.200Z",
+        "durationMs": 42.4,
+        "stdout": "[\n  {\n    \"file\": \"Alpha.md\",\n    \"matches\": [\n      {\n        \"line\": 3,\n        \"text\": \"red green\"\n      },\n      {\n        \"line\": 3,\n        \"text\": \"red green\"\n      },\n      {\n        \"line\": 4,\n        \"text\": \"red and red\"\n      },\n      {\n        \"line\": 4,\n        \"text\": \"red and red\"\n      },\n      {\n        \"line\": 5,\n        \"text\": \"red\"\n      },\n      {\n        \"line\": 6,\n        \"text\": \"green\"\n      }\n    ]\n  },\n  {\n    \"file\": \"LiteralTokens.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"red\\tgreen\"\n      },\n      {\n        \"line\": 1,\n        \"text\": \"red\\tgreen\"\n      },\n      {\n        \"line\": 2,\n        \"text\": \"red\"\n      },\n      {\n        \"line\": 3,\n        \"text\": \"green\"\n      },\n      {\n        \"line\": 6,\n        \"text\": \"red\u00a0green\"\n      },\n      {\n        \"line\": 6,\n        \"text\": \"red\u00a0green\"\n      }\n    ]\n  }\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        {
+          "file": "Alpha.md",
+          "matches": [
+            {
+              "line": 3,
+              "text": "red green"
+            },
+            {
+              "line": 3,
+              "text": "red green"
+            },
+            {
+              "line": 4,
+              "text": "red and red"
+            },
+            {
+              "line": 4,
+              "text": "red and red"
+            },
+            {
+              "line": 5,
+              "text": "red"
+            },
+            {
+              "line": 6,
+              "text": "green"
+            }
+          ]
+        },
+        {
+          "file": "LiteralTokens.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "red\tgreen"
+            },
+            {
+              "line": 1,
+              "text": "red\tgreen"
+            },
+            {
+              "line": 2,
+              "text": "red"
+            },
+            {
+              "line": 3,
+              "text": "green"
+            },
+            {
+              "line": 6,
+              "text": "red\u00a0green"
+            },
+            {
+              "line": 6,
+              "text": "red\u00a0green"
+            }
+          ]
+        }
+      ],
+      "actual": [
+        {
+          "file": "Alpha.md",
+          "matches": [
+            {
+              "line": 3,
+              "text": "red green"
+            },
+            {
+              "line": 3,
+              "text": "red green"
+            },
+            {
+              "line": 4,
+              "text": "red and red"
+            },
+            {
+              "line": 4,
+              "text": "red and red"
+            },
+            {
+              "line": 5,
+              "text": "red"
+            },
+            {
+              "line": 6,
+              "text": "green"
+            }
+          ]
+        },
+        {
+          "file": "LiteralTokens.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "red\tgreen"
+            },
+            {
+              "line": 1,
+              "text": "red\tgreen"
+            },
+            {
+              "line": 2,
+              "text": "red"
+            },
+            {
+              "line": 3,
+              "text": "green"
+            },
+            {
+              "line": 6,
+              "text": "red\u00a0green"
+            },
+            {
+              "line": 6,
+              "text": "red\u00a0green"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "literal-regex-metacharacters:search",
+      "case": {
+        "id": "literal-regex-metacharacters",
+        "query": "a+b"
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=a+b",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.243Z",
+        "durationMs": 3.89,
+        "stdout": "[\"LiteralTokens.md\"]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "a+b",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.247Z",
+        "durationMs": 37.4,
+        "stdout": "[\n  \"LiteralTokens.md\"\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        "LiteralTokens.md"
+      ],
+      "actual": [
+        "LiteralTokens.md"
+      ]
+    },
+    {
+      "id": "literal-regex-metacharacters:search:context",
+      "case": {
+        "id": "literal-regex-metacharacters",
+        "query": "a+b"
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=a+b",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.284Z",
+        "durationMs": 2.91,
+        "stdout": "[{\"file\":\"LiteralTokens.md\",\"matches\":[{\"line\":5,\"text\":\"a+b and a.b\"}]}]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "a+b",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.287Z",
+        "durationMs": 32.32,
+        "stdout": "[\n  {\n    \"file\": \"LiteralTokens.md\",\n    \"matches\": [\n      {\n        \"line\": 5,\n        \"text\": \"a+b and a.b\"\n      }\n    ]\n  }\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        {
+          "file": "LiteralTokens.md",
+          "matches": [
+            {
+              "line": 5,
+              "text": "a+b and a.b"
+            }
+          ]
+        }
+      ],
+      "actual": [
+        {
+          "file": "LiteralTokens.md",
+          "matches": [
+            {
+              "line": 5,
+              "text": "a+b and a.b"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "path-boundary:search",
+      "case": {
+        "id": "path-boundary",
+        "query": "boundary",
+        "path": "Projects"
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=boundary",
+          "format=json",
+          "path=Projects"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.319Z",
+        "durationMs": 2.48,
+        "stdout": "[\"Projects/Sub/Deep.md\",\"Projects/Inside.md\"]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "boundary",
+          "--format",
+          "json",
+          "--path",
+          "Projects"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.322Z",
+        "durationMs": 31.39,
+        "stdout": "[\n  \"Projects/Inside.md\",\n  \"Projects/Sub/Deep.md\"\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        "Projects/Inside.md",
+        "Projects/Sub/Deep.md"
+      ],
+      "actual": [
+        "Projects/Inside.md",
+        "Projects/Sub/Deep.md"
+      ]
+    },
+    {
+      "id": "path-boundary:search:context",
+      "case": {
+        "id": "path-boundary",
+        "query": "boundary",
+        "path": "Projects"
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=boundary",
+          "format=json",
+          "path=Projects"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.353Z",
+        "durationMs": 2.76,
+        "stdout": "[{\"file\":\"Projects/Sub/Deep.md\",\"matches\":[{\"line\":1,\"text\":\"boundary deep\"}]},{\"file\":\"Projects/Inside.md\",\"matches\":[{\"line\":1,\"text\":\"boundary apple\"}]}]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "boundary",
+          "--format",
+          "json",
+          "--path",
+          "Projects"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.356Z",
+        "durationMs": 34.56,
+        "stdout": "[\n  {\n    \"file\": \"Projects/Inside.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"boundary apple\"\n      }\n    ]\n  },\n  {\n    \"file\": \"Projects/Sub/Deep.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"boundary deep\"\n      }\n    ]\n  }\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        {
+          "file": "Projects/Inside.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "boundary apple"
+            }
+          ]
+        },
+        {
+          "file": "Projects/Sub/Deep.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "boundary deep"
+            }
+          ]
+        }
+      ],
+      "actual": [
+        {
+          "file": "Projects/Inside.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "boundary apple"
+            }
+          ]
+        },
+        {
+          "file": "Projects/Sub/Deep.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "boundary deep"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "path-trailing-slash:search",
+      "case": {
+        "id": "path-trailing-slash",
+        "query": "boundary",
+        "path": "Projects/"
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=boundary",
+          "format=json",
+          "path=Projects/"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.391Z",
+        "durationMs": 2.48,
+        "stdout": "[\"Projects/Sub/Deep.md\",\"Projects/Inside.md\"]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "boundary",
+          "--format",
+          "json",
+          "--path",
+          "Projects/"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.393Z",
+        "durationMs": 31.22,
+        "stdout": "[\n  \"Projects/Inside.md\",\n  \"Projects/Sub/Deep.md\"\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        "Projects/Inside.md",
+        "Projects/Sub/Deep.md"
+      ],
+      "actual": [
+        "Projects/Inside.md",
+        "Projects/Sub/Deep.md"
+      ]
+    },
+    {
+      "id": "path-trailing-slash:search:context",
+      "case": {
+        "id": "path-trailing-slash",
+        "query": "boundary",
+        "path": "Projects/"
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=boundary",
+          "format=json",
+          "path=Projects/"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.425Z",
+        "durationMs": 2.96,
+        "stdout": "[{\"file\":\"Projects/Sub/Deep.md\",\"matches\":[{\"line\":1,\"text\":\"boundary deep\"}]},{\"file\":\"Projects/Inside.md\",\"matches\":[{\"line\":1,\"text\":\"boundary apple\"}]}]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "boundary",
+          "--format",
+          "json",
+          "--path",
+          "Projects/"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.428Z",
+        "durationMs": 38.84,
+        "stdout": "[\n  {\n    \"file\": \"Projects/Inside.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"boundary apple\"\n      }\n    ]\n  },\n  {\n    \"file\": \"Projects/Sub/Deep.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"boundary deep\"\n      }\n    ]\n  }\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        {
+          "file": "Projects/Inside.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "boundary apple"
+            }
+          ]
+        },
+        {
+          "file": "Projects/Sub/Deep.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "boundary deep"
+            }
+          ]
+        }
+      ],
+      "actual": [
+        {
+          "file": "Projects/Inside.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "boundary apple"
+            }
+          ]
+        },
+        {
+          "file": "Projects/Sub/Deep.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "boundary deep"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "uppercase-extension:search",
+      "case": {
+        "id": "uppercase-extension",
+        "query": "uppercase"
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=uppercase",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.466Z",
+        "durationMs": 3.06,
+        "stdout": "[\"Upper.MD\"]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "uppercase",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.470Z",
+        "durationMs": 41.06,
+        "stdout": "[\n  \"Upper.MD\"\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        "Upper.MD"
+      ],
+      "actual": [
+        "Upper.MD"
+      ]
+    },
+    {
+      "id": "uppercase-extension:search:context",
+      "case": {
+        "id": "uppercase-extension",
+        "query": "uppercase"
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=uppercase",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.511Z",
+        "durationMs": 2.91,
+        "stdout": "[{\"file\":\"Upper.MD\",\"matches\":[{\"line\":1,\"text\":\"uppercase extension token\"}]}]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "uppercase",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.514Z",
+        "durationMs": 40.2,
+        "stdout": "[\n  {\n    \"file\": \"Upper.MD\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"uppercase extension token\"\n      }\n    ]\n  }\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        {
+          "file": "Upper.MD",
+          "matches": [
+            {
+              "line": 1,
+              "text": "uppercase extension token"
+            }
+          ]
+        }
+      ],
+      "actual": [
+        {
+          "file": "Upper.MD",
+          "matches": [
+            {
+              "line": 1,
+              "text": "uppercase extension token"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ignored-filters:search",
+      "case": {
+        "id": "ignored-filters",
+        "query": "ignoretoken"
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=ignoretoken",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.554Z",
+        "durationMs": 3.51,
+        "stdout": "[\"VisibleIgnore.md\"]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "ignoretoken",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.557Z",
+        "durationMs": 51.16,
+        "stdout": "[\n  \"VisibleIgnore.md\"\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        "VisibleIgnore.md"
+      ],
+      "actual": [
+        "VisibleIgnore.md"
+      ]
+    },
+    {
+      "id": "ignored-filters:search:context",
+      "case": {
+        "id": "ignored-filters",
+        "query": "ignoretoken"
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=ignoretoken",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.609Z",
+        "durationMs": 2.79,
+        "stdout": "[{\"file\":\"VisibleIgnore.md\",\"matches\":[{\"line\":1,\"text\":\"ignoretoken visible\"}]}]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "ignoretoken",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.611Z",
+        "durationMs": 38.55,
+        "stdout": "[\n  {\n    \"file\": \"VisibleIgnore.md\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"ignoretoken visible\"\n      }\n    ]\n  }\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        {
+          "file": "VisibleIgnore.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "ignoretoken visible"
+            }
+          ]
+        }
+      ],
+      "actual": [
+        {
+          "file": "VisibleIgnore.md",
+          "matches": [
+            {
+              "line": 1,
+              "text": "ignoretoken visible"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "text-excluded:search",
+      "case": {
+        "id": "text-excluded",
+        "query": "txtonly"
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=txtonly",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.650Z",
+        "durationMs": 2.59,
+        "stdout": "No matches found.\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "txtonly",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.653Z",
+        "durationMs": 34.1,
+        "stdout": "[]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "id": "text-excluded:search:context",
+      "case": {
+        "id": "text-excluded",
+        "query": "txtonly"
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=txtonly",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.687Z",
+        "durationMs": 2.53,
+        "stdout": "No matches found.\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "txtonly",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.689Z",
+        "durationMs": 52,
+        "stdout": "[]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "id": "hidden-excluded:search",
+      "case": {
+        "id": "hidden-excluded",
+        "query": "hiddenonly"
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=hiddenonly",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.741Z",
+        "durationMs": 2.69,
+        "stdout": "No matches found.\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "hiddenonly",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.744Z",
+        "durationMs": 33.95,
+        "stdout": "[]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "id": "hidden-excluded:search:context",
+      "case": {
+        "id": "hidden-excluded",
+        "query": "hiddenonly"
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=hiddenonly",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.778Z",
+        "durationMs": 2.65,
+        "stdout": "No matches found.\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "hiddenonly",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.781Z",
+        "durationMs": 37.07,
+        "stdout": "[]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "id": "no-matches:search",
+      "case": {
+        "id": "no-matches",
+        "query": "impossiblewordxq"
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=impossiblewordxq",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.818Z",
+        "durationMs": 2.9,
+        "stdout": "No matches found.\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "impossiblewordxq",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.821Z",
+        "durationMs": 36.27,
+        "stdout": "[]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "id": "no-matches:search:context",
+      "case": {
+        "id": "no-matches",
+        "query": "impossiblewordxq"
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=impossiblewordxq",
+          "format=json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.857Z",
+        "durationMs": 2.61,
+        "stdout": "No matches found.\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "impossiblewordxq",
+          "--format",
+          "json"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.860Z",
+        "durationMs": 41.38,
+        "stdout": "[]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "id": "single-match-limit:search",
+      "case": {
+        "id": "single-match-limit",
+        "query": "uppercase",
+        "limit": 1
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=uppercase",
+          "format=json",
+          "limit=1"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.901Z",
+        "durationMs": 2.71,
+        "stdout": "[\"Upper.MD\"]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "uppercase",
+          "--format",
+          "json",
+          "--limit",
+          "1"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.904Z",
+        "durationMs": 40.45,
+        "stdout": "[\n  \"Upper.MD\"\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        "Upper.MD"
+      ],
+      "actual": [
+        "Upper.MD"
+      ]
+    },
+    {
+      "id": "single-match-limit:search:context",
+      "case": {
+        "id": "single-match-limit",
+        "query": "uppercase",
+        "limit": 1
+      },
+      "command": "search:context",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search:context",
+          "query=uppercase",
+          "format=json",
+          "limit=1"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.945Z",
+        "durationMs": 2.96,
+        "stdout": "[{\"file\":\"Upper.MD\",\"matches\":[{\"line\":1,\"text\":\"uppercase extension token\"}]}]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search:context",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "uppercase",
+          "--format",
+          "json",
+          "--limit",
+          "1"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.948Z",
+        "durationMs": 36.01,
+        "stdout": "[\n  {\n    \"file\": \"Upper.MD\",\n    \"matches\": [\n      {\n        \"line\": 1,\n        \"text\": \"uppercase extension token\"\n      }\n    ]\n  }\n]\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": [
+        {
+          "file": "Upper.MD",
+          "matches": [
+            {
+              "line": 1,
+              "text": "uppercase extension token"
+            }
+          ]
+        }
+      ],
+      "actual": [
+        {
+          "file": "Upper.MD",
+          "matches": [
+            {
+              "line": 1,
+              "text": "uppercase extension token"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "total-before-limit:search",
+      "case": {
+        "id": "total-before-limit",
+        "query": "apple",
+        "limit": 1,
+        "total": true
+      },
+      "command": "search",
+      "native": {
+        "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+        "args": [
+          "vault=reaconstruction",
+          "search",
+          "query=apple",
+          "format=json",
+          "limit=1",
+          "total"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.984Z",
+        "durationMs": 2.93,
+        "stdout": "{\"total\":3}\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "reconstructed": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "/workspace/Letstryrea/bin/letstryrea.mjs",
+          "search",
+          "/workspace/.onboarding/runtime-obsidian/vault",
+          "apple",
+          "--format",
+          "json",
+          "--limit",
+          "1",
+          "--total"
+        ],
+        "cwd": "/workspace/.onboarding/runtime-obsidian/vault",
+        "startedAt": "2026-10-15T10:08:27.987Z",
+        "durationMs": 42.09,
+        "stdout": "{\"total\":3}\n",
+        "stderr": "",
+        "exit": 0,
+        "signal": null
+      },
+      "passed": true,
+      "expected": {
+        "total": 3
+      },
+      "actual": {
+        "total": 3
+      }
+    }
+  ],
+  "passed": 69,
+  "total": 69,
+  "success": true,
+  "fixture": {
+    "path": "/workspace/.onboarding/runtime-obsidian/vault",
+    "fileCount": 21,
+    "filesSha256": {
+      ".Hidden.md": "21047b9c6e089abe2f4a39add70cb61e3ae1a39e0173f3b750dff1d9c79b4bd2",
+      ".hidden/Inside.md": "21047b9c6e089abe2f4a39add70cb61e3ae1a39e0173f3b750dff1d9c79b4bd2",
+      "Adjacent.md": "41a4619c85ab0d7a3b0df0d1bc87343765d2a6d54e8866fb2d0343d0b42561c3",
+      "Alpha.md": "eb047ebf5a588b6f6dcb4e04f8848b6d184850583d599b03f9f7562e4620bf59",
+      "Ignored/Secret.md": "30fc5f1f2ea9b908fe8d4b33bb1680d958294abded190988cf3b543696505ee0",
+      "IgnoredPrefix.md": "aabe3be7b47e1e38419c8e16c99d90f5440c539b006b88e0b14f9637da61059f",
+      "LiteralTokens.md": "da24a38b03e1160467009ccc8ae804fdbff395758ae34482db23d94b9c35329d",
+      "NameNeedle.md": "4a6fda4c4c35a96b7c313c853fc4d0d7d1c903ccc7c047b370fa8e94e5a451c6",
+      "NoHit.md": "b1c1be2aa830348f8cc98f38d68d4ac0bb6bbc5097e0cac989020abb0a11d8ec",
+      "NotMarkdown.txt": "fd5fc982e6c17848b21ae0377860f371df637e914b67b1c98429f61c7f7172d6",
+      "Projects.md": "5354fd91d68fc0fa1ad0d9c89870336e29aec9190cd22d8257ab746a3214b471",
+      "Projects/Inside.md": "bf5fb4f8c0ef5f3fbcda8981f363b23a2adba6f4e12a53be0bce5ef410a46e5d",
+      "Projects/Sub/Deep.md": "43c07b5806e4e8293165b798398e9042c21d16d52c487462913e7793deeea4a5",
+      "ProjectsElse/Outside.md": "bf5fb4f8c0ef5f3fbcda8981f363b23a2adba6f4e12a53be0bce5ef410a46e5d",
+      "Unicode.md": "c8e8c1232214065c816f546a2d53bccd54a6031d6cbd5b65380c81df39e233b8",
+      "UnicodeCase.md": "0335c3633f441a9766f86e55fc3ae1a32d9212b5ce7e510d501dfb9db3a57c74",
+      "Upper.MD": "ac45be1b22b9783f87a829c4a277451acfe7b99ff0915fdb991ff3dc12b37f28",
+      "VisibleIgnore.md": "38aa1dc45fc5d38cc97fa0b523819b25feb119f54b7f2965b3a8f0b4cba7b60d",
+      "Whitespace.md": "7517ca5b92fb3a67356d5ccbb2a2902640a9b592f3a902f0048f3f9d997550a6",
+      "alpha-name.md": "7cdf6eda7177e816db9f8d76073439cff29b19becd1d0cedd0050f974641557c",
+      "private-note.md": "582016bb74296963597c5c11e5dc57fbf48b25f57fa6ac1c28af9d90f6f492da"
+    },
+    "corpusSha256": "fae688dea179658b92edae9686ad6af1cd6ceb30a9eee1a7452c1fa028d3c5fa",
+    "config": {
+      "userIgnoreFilters": [
+        "Ignored",
+        "/private-note/"
+      ]
+    }
+  },
+  "native": {
+    "executable": "/workspace/.onboarding/runtime-obsidian/obsidian-1.14.4/obsidian-cli",
+    "vaultName": "reaconstruction",
+    "version": "1.14.4",
+    "liveIdentity": {
+      "path": "/workspace/.onboarding/runtime-obsidian/vault",
+      "filters": [
+        "Ignored",
+        "/private-note/"
+      ]
+    }
+  },
+  "finishedAt": "2026-10-15T10:08:28.030Z"
+}

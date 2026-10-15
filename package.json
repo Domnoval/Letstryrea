@@ -1,0 +1,21 @@
+{
+  "name": "letstryrea",
+  "version": "0.1.0",
+  "private": true,
+  "description": "An artifact-to-project pipeline for evidence-bound reconstruction recipes.",
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "packageManager": "npm@11.9.0",
+  "bin": {
+    "letstryrea": "bin/letstryrea.mjs"
+  },
+  "scripts": {
+    "start": "node bin/letstryrea.mjs",
+    "test": "node --test",
+    "demo": "node bin/letstryrea.mjs search:context examples/vault nebula --format json",
+    "compare:obsidian": "node scripts/compare-obsidian.mjs",
+    "reconstruct": "node bin/letstryrea.mjs reconstruct"
+  }
+}

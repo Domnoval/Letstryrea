@@ -1,0 +1,188 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "description": "Synthetic notes and plain-text search cases used to compare against the installed Obsidian desktop CLI. Contains no Obsidian application code.",
+    "studiedVersion": "1.14.4",
+    "studiedRuntimeAsarSha256": "146ef8470d8cbb4a6db209bdc19bf2bad13350444186c0fd93c31087b142b92f"
+  },
+  "scope": "Unquoted literal terms joined by ASCII spaces, filename/content AND matching, merged context ranges, case folding, folder boundaries, ignored paths, file discovery, a single-match limit and total-before-limit. Excludes native advanced query operators and multi-match ordering under limits.",
+  "fixtureConfig": {
+    "userIgnoreFilters": [
+      "Ignored",
+      "/private-note/"
+    ]
+  },
+  "fixtureFiles": {
+    "Alpha.md": "# Alpha\napple Apple APPLE\nred green\nred and red\nred\ngreen\n",
+    "NameNeedle.md": "# Ordinary body\nNo requested word here.\n",
+    "alpha-name.md": "beta appears here\ngamma appears elsewhere\n",
+    "Adjacent.md": "aaaa\naa aa\n",
+    "Whitespace.md": "  padded needle  \r\n\tneedle\t\r\n",
+    "Unicode.md": "σ Σ ς\nK K k\nİ i I ı\n",
+    "UnicodeCase.md": "σ\nς\nΣ\nK\nk\nK\n",
+    "LiteralTokens.md": "red\tgreen\nred\ngreen\nO'Reilly source\na+b and a.b\nred green\n",
+    "Upper.MD": "uppercase extension token\n",
+    "Projects/Inside.md": "boundary apple\n",
+    "Projects/Sub/Deep.md": "boundary deep\n",
+    "ProjectsElse/Outside.md": "boundary apple\n",
+    "Projects.md": "boundary file at root\n",
+    "Ignored/Secret.md": "ignoretoken apple\n",
+    "IgnoredPrefix.md": "ignoretoken prefix\n",
+    "private-note.md": "ignoretoken regular expression\n",
+    "VisibleIgnore.md": "ignoretoken visible\n",
+    "NoHit.md": "nothing special\n",
+    "NotMarkdown.txt": "txtonly apple\n",
+    ".Hidden.md": "hiddenonly apple\n",
+    ".hidden/Inside.md": "hiddenonly apple\n"
+  },
+  "cases": [
+    {
+      "id": "literal",
+      "query": "apple"
+    },
+    {
+      "id": "filename-only",
+      "query": "NameNeedle"
+    },
+    {
+      "id": "filename-extension",
+      "query": "md"
+    },
+    {
+      "id": "folder-not-filename",
+      "query": "Projects"
+    },
+    {
+      "id": "multiword-content",
+      "query": "red green"
+    },
+    {
+      "id": "multiword-across-lines",
+      "query": "beta gamma"
+    },
+    {
+      "id": "multiword-filename-content",
+      "query": "alpha beta"
+    },
+    {
+      "id": "repeated-same-line",
+      "query": "red"
+    },
+    {
+      "id": "adjacent-ranges",
+      "query": "aa"
+    },
+    {
+      "id": "same-term-twice",
+      "query": "red red"
+    },
+    {
+      "id": "trim-and-crlf",
+      "query": "needle"
+    },
+    {
+      "id": "case-sensitive",
+      "query": "Apple",
+      "case": true
+    },
+    {
+      "id": "sigma-insensitive",
+      "query": "Σ"
+    },
+    {
+      "id": "sigma-sensitive",
+      "query": "Σ",
+      "case": true
+    },
+    {
+      "id": "kelvin-insensitive",
+      "query": "k"
+    },
+    {
+      "id": "kelvin-symbol-insensitive",
+      "query": "K"
+    },
+    {
+      "id": "kelvin-sensitive",
+      "query": "k",
+      "case": true
+    },
+    {
+      "id": "turkish-insensitive",
+      "query": "i"
+    },
+    {
+      "id": "apostrophe-literal",
+      "query": "O'Reilly"
+    },
+    {
+      "id": "tab-inside-term",
+      "query": "red\tgreen"
+    },
+    {
+      "id": "newline-inside-term",
+      "query": "red\ngreen"
+    },
+    {
+      "id": "tab-only-term",
+      "query": "\t"
+    },
+    {
+      "id": "newline-only-term",
+      "query": "\n"
+    },
+    {
+      "id": "nbsp-inside-term",
+      "query": "red green"
+    },
+    {
+      "id": "padding-spaces",
+      "query": "  red  green  "
+    },
+    {
+      "id": "literal-regex-metacharacters",
+      "query": "a+b"
+    },
+    {
+      "id": "path-boundary",
+      "query": "boundary",
+      "path": "Projects"
+    },
+    {
+      "id": "path-trailing-slash",
+      "query": "boundary",
+      "path": "Projects/"
+    },
+    {
+      "id": "uppercase-extension",
+      "query": "uppercase"
+    },
+    {
+      "id": "ignored-filters",
+      "query": "ignoretoken"
+    },
+    {
+      "id": "text-excluded",
+      "query": "txtonly"
+    },
+    {
+      "id": "hidden-excluded",
+      "query": "hiddenonly"
+    },
+    {
+      "id": "no-matches",
+      "query": "impossiblewordxq"
+    },
+    {
+      "id": "single-match-limit",
+      "query": "uppercase",
+      "limit": 1
+    },
+    {
+      "id": "total-before-limit",
+      "query": "apple",
+      "limit": 1,
+      "total": true
+    }
+  ]
+}
