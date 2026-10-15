@@ -13,6 +13,8 @@
   },
   "scripts": {
     "start": "node bin/letstryrea.mjs",
+    "setup:environment": "bash scripts/setup-environment.sh",
+    "verify:environment": "node scripts/verify-environment.mjs",
     "test": "node --test",
     "demo": "node bin/letstryrea.mjs search:context examples/vault nebula --format json",
     "compare:obsidian": "node scripts/compare-obsidian.mjs",

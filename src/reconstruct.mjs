@@ -144,8 +144,13 @@ async function writeReports(output, report) {
 
 async function chooseRea(override) {
   if (override) return /[/\\]/.test(override) ? resolve(override) : override;
-  const retained = resolve(projectRoot, '../.onboarding/rea-tools/node_modules/.bin/rea');
-  try { await access(retained); return retained; } catch { return 'rea'; }
+  for (const candidate of [
+    resolve(projectRoot, 'tools/rea/node_modules/.bin/rea'),
+    resolve(projectRoot, '../.onboarding/rea-tools/node_modules/.bin/rea'),
+  ]) {
+    try { await access(candidate); return candidate; } catch { /* Try the next installation. */ }
+  }
+  return 'rea';
 }
 
 /** Automate the supported recipe, keeping analysis, generation and verification distinct. */

@@ -15,7 +15,19 @@ is required; the development runtime is pinned in `.nvmrc`.
 
 ## Run the artifact pipeline
 
-Install the official `rea-agents@6.5.0` CLI separately, then run:
+On Linux with Node.js 24.11+ within 24.x (24.19.0 is pinned in `.nvmrc`),
+npm, Bash, and procps installed, restore and verify the development tools:
+
+```sh
+npm run setup:environment
+```
+
+This installs the locked REA 6.5.0 tooling separately from the application,
+checks its real MCP connection and JavaScript analysis, and runs the project
+tests and demo. It works from a fresh checkout without the original cloud
+snapshot. See [environment recovery](docs/environment.md).
+
+Then run:
 
 ```sh
 npm run reconstruct -- /path/to/obsidian-1.14.4.asar --out output/obsidian
@@ -24,6 +36,8 @@ npm run reconstruct -- /path/to/obsidian-1.14.4.asar --out output/obsidian
 In the prepared cloud environment, REA is already installed. The tested artifact
 is `/workspace/.onboarding/artifacts/obsidian/obsidian-1.14.4.asar`.
 You can select another REA executable with `--rea /path/to/rea`.
+Analyzer discovery prefers `tools/rea/node_modules/.bin/rea`, then the legacy
+cloud tools, then `rea` on `PATH`.
 
 The output directory must be new. A successful run contains:
 
