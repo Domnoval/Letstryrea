@@ -1,13 +1,14 @@
 # Letstryrea
 
 Give the pipeline a supported application artifact and get an editable,
-tested project plus a downloadable ZIP and verification report. The first
-recipe exports the independently written Markdown search capability we
-studied and compared with Obsidian 1.14.4.
+tested project plus a downloadable ZIP and verification report. Two recipes
+export independently written capabilities checked against their originals:
+Markdown search from Obsidian 1.14.4 and duration conversion from `ms@2.1.3`.
 
-The pipeline currently recognizes **only the exact studied Obsidian 1.14.4
-application-update ASAR**. It applies a known reconstruction recipe. General
-artifact-to-source synthesis and other apps/releases remain future work.
+The pipeline recognizes **the exact studied Obsidian 1.14.4 application-update
+ASAR and the exact published `ms@2.1.3` npm tarball**. It applies known
+reconstruction recipes. General artifact-to-source synthesis and other
+apps/releases remain future work.
 
 The implementation uses independently written JavaScript and Node.js built-ins.
 It runs without Obsidian, REA, or third-party runtime dependencies. Node.js 24+
@@ -27,7 +28,22 @@ checks its real MCP connection and JavaScript analysis, and runs the project
 tests and demo. It works from a fresh checkout without the original cloud
 snapshot. See [environment recovery](docs/environment.md).
 
-Then run:
+Try the smaller duration-conversion reconstruction:
+
+```sh
+mkdir -p .cache/targets
+npm pack ms@2.1.3 --ignore-scripts --pack-destination .cache/targets
+npm run reconstruct -- .cache/targets/ms-2.1.3.tgz --out .cache/duration-first
+```
+
+This validates the compressed artifact and extracted file manifest, runs fresh
+REA directory analysis, exports our duration implementation, and runs fresh
+comparisons against the pinned MIT-licensed original before creating the ZIP.
+The original is deliberately executed in a bounded child process on fixed
+synthetic inputs. Unknown inputs are never executed, and npm lifecycle scripts
+are not run. See [the duration specification](docs/duration-spec.md).
+
+For the Obsidian recipe:
 
 ```sh
 npm run reconstruct -- /path/to/obsidian-1.14.4.asar --out output/obsidian
@@ -50,11 +66,11 @@ output/obsidian/
   evidence/     Fresh REA analysis and command/test logs
 ```
 
-The pipeline verifies the artifact's full digest, embedded source digest, and
+The Obsidian pipeline verifies the artifact's full digest, embedded source digest, and
 12 recorded source anchors. It then runs fresh REA inspection/selected-source
 analysis, exports our existing search implementation, runs its 28 tests and a
 functional demo, and creates the ZIP only after those checks pass. The original
-application is read as data, never executed by this pipeline.
+Obsidian application is read as data, never executed by this recipe.
 
 Fresh generated-project checks are separate from the recipe's earlier 69
 live Obsidian comparisons. The reports preserve that distinction and retain
@@ -71,6 +87,8 @@ interface. See [the pipeline contract](docs/pipeline.md) for stage details.
 
 ```sh
 npm run demo
+npm run demo:duration
+npm start -- duration format 5400000 --long
 npm start -- search examples/vault "nebula telescope" --format json
 npm start -- search:context examples/vault nebula --path notes --format json
 npm test
@@ -173,6 +191,7 @@ order and duplicate contexts while normalizing file order and the native
 no-match sentinel. A failed preflight or comparison returns a failing exit
 status. Fresh results go to `.cache/obsidian-comparison.json`.
 
-The first manually verified reconstruction is now available through an
-automated, recipe-based intake/analysis/export/test/package workflow. A web
+Both reconstructions are available through the recipe-based
+intake/analysis/export/test/package workflow. Duration runs include fresh
+original comparisons; Obsidian comparisons remain historical evidence. A web
 upload interface and general code synthesis remain future work.

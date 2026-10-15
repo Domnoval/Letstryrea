@@ -17,6 +17,8 @@
     "verify:environment": "node scripts/verify-environment.mjs",
     "test": "node --test",
     "demo": "node bin/letstryrea.mjs search:context examples/vault nebula --format json",
+    "demo:duration": "node bin/letstryrea.mjs duration parse 2h",
+    "compare:ms": "node scripts/compare-ms.mjs",
     "compare:obsidian": "node scripts/compare-obsidian.mjs",
     "reconstruct": "node bin/letstryrea.mjs reconstruct"
   }

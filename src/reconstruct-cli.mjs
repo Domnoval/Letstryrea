@@ -5,13 +5,18 @@ const help = `Letstryrea artifact reconstruction pipeline
 Usage:
   letstryrea reconstruct <artifact> --out <new-directory> [--rea <executable>] [--json]
 
-The first recipe supports the exact Obsidian 1.14.4 application-update ASAR
-studied by this project. It verifies artifact/source hashes, performs fresh REA
-analysis, exports the existing independently written Markdown search recipe,
-runs its tests, and creates project.zip plus an honest verification report.
+Recipes support the exact studied Obsidian 1.14.4 application-update ASAR
+(Markdown search) and ms 2.1.3 npm tarball (duration parsing and formatting).
+The pipeline verifies artifact/source hashes, performs fresh REA analysis,
+exports an existing independently written recipe, runs its tests, and creates
+project.zip plus a verification report. The duration recipe additionally runs
+fresh comparisons against the pinned MIT reference in separate bounded child
+processes using a fixed synthetic corpus. Obsidian comparisons are historical;
+the original Obsidian artifact is never executed.
 It does not synthesize arbitrary application source. Other inputs produce an
-unsupported report without a generated project. Original artifacts are never
-executed or included in the project ZIP.
+unsupported report without a generated project. Original artifacts and extracted
+reference source are excluded from the project ZIP. REA analyzes the verified
+ms extraction as a directory; its archive-inspection step is not used for ms.
 
 Options:
   --out <directory>   Required new output directory; existing paths are refused

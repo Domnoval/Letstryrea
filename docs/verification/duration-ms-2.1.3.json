@@ -1,0 +1,212 @@
+{
+  "schemaVersion": 1,
+  "experiment": "Second reconstruction: ms 2.1.3 duration conversion",
+  "completedAt": "2026-10-15T23:46:01.028Z",
+  "generationMode": "verified-recipe-export",
+  "acquisition": {
+    "name": "ms",
+    "version": "2.1.3",
+    "url": "https://registry.npmjs.org/ms/-/ms-2.1.3.tgz",
+    "sha256": "f6616e15e530ed552f9daa2d3ce71963947c6bc7c98c9b64fd3e673fd02622c6",
+    "sha512Integrity": "sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==",
+    "license": "MIT",
+    "files": [
+      {
+        "path": "package/index.js",
+        "bytes": 3024,
+        "sha256": "e5f0b6a946a9b2b356a28557728410717df54ea2f599edb619f9839df6b7b0e9"
+      },
+      {
+        "path": "package/package.json",
+        "bytes": 732,
+        "sha256": "1a6b4d9739790c0b94ab96c8cc0507e281c164c311ff4fbf5e57fb8d26290b40"
+      },
+      {
+        "path": "package/license.md",
+        "bytes": 1079,
+        "sha256": "1662fae9b5314d11cf51284e2dcd1f006a354f7343f08712a730fcff9a359801"
+      },
+      {
+        "path": "package/readme.md",
+        "bytes": 1886,
+        "sha256": "8bf6c4f414b123ea2a9375b91982882d01d8561ce7d12e3bb4f448c23359f040"
+      }
+    ]
+  },
+  "commands": {
+    "reconstruct": [
+      "npm",
+      "run",
+      "reconstruct",
+      "--",
+      ".cache/targets/ms-2.1.3/ms-2.1.3.tgz",
+      "--out",
+      ".cache/reconstructions/ms-2.1.3-verified",
+      "--json"
+    ],
+    "repositoryTests": [
+      "npm",
+      "test",
+      "--",
+      "--test-reporter=tap"
+    ]
+  },
+  "analysis": {
+    "evidenceId": "ev_e4b929cfb73072fdf0cab57bf2acc38c78125d5981e398d17fbc69795e9c112c",
+    "analyzedDirectorySha256": "3e29d5f29f345810b740eceef7a07c5155976c44ab0bfc9df071bec232dd2474",
+    "sourceSha256": "e5f0b6a946a9b2b356a28557728410717df54ea2f599edb619f9839df6b7b0e9",
+    "statistics": {
+      "relevant_files": 2,
+      "nested_asar_containers": 0,
+      "text_bytes_read": 3756,
+      "invalid_utf8_files": 0,
+      "parsed_javascript_files": 1,
+      "visited_ast_nodes": 416,
+      "findings": 1,
+      "modules": 0,
+      "parse_failures": 0
+    },
+    "sourceSelection": {
+      "requested_paths": [
+        "package.json",
+        "index.js"
+      ],
+      "unselected_files": 0
+    },
+    "applicationCoverage": "complete",
+    "semanticCoverage": "unknown",
+    "semanticUnknowns": 55,
+    "limitations": [
+      "Caller-selected source analysis leaves 0 inventoried files outside analysis scope. Inventory identity covers the complete artifact; relationships through unselected sources remain unknown.",
+      "CommonJS and ESM binding relationships were recovered from inert syntax and resolved only within the inventoried artifact container.",
+      "JavaScript and HTML were parsed as inert text; bundle bootstrap code was never executed.",
+      "Static imports, entrypoints, workers, endpoints, and storage relationships do not prove runtime execution.",
+      "Static paths and relationships may remain unresolved when expressions are dynamic or obfuscated.",
+      "Webpack/Rspack factories were recovered from AST literals; REA did not invoke push handlers or bundle bootstrap code."
+    ]
+  },
+  "freshVerification": {
+    "repositoryTests": 94,
+    "generatedProject": {
+      "tests": 9,
+      "pass": 9,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "demo": {
+      "status": "passed",
+      "parsedMilliseconds": 7200000,
+      "formattedDuration": "2 hours"
+    },
+    "originalComparison": {
+      "status": "passed",
+      "passed": 1823,
+      "total": 1823,
+      "failed": 0,
+      "originalReferenceExecution": true,
+      "originalSourceSha256": "e5f0b6a946a9b2b356a28557728410717df54ea2f599edb619f9839df6b7b0e9",
+      "candidateSourceSha256": "ca6d12b9b9a0268f9aa59e8b9a33b447f801c6495edada33672cfb99afe9c345",
+      "sourceDigestsUnchanged": true,
+      "corpus": {
+        "curatedFixtureSha256": "463d42b481d3e47a9704e984f64c16404c5a4f2c2f010de24c54bfe243b4c30c",
+        "combinedCasesSha256": "aa5a7bada77b7b136e511d9ce7f7cdb95130c16a28600b1e433aa4562e33014c",
+        "runnerSha256": "5e3680533e9f656cee64e36124782bbfe1967a8d1cb0f29c6f153193998e6161"
+      },
+      "recordSha256": "13e93555d6098c5ba9e61e47e751942a92407a1c80e5dd180aed27d528083432"
+    },
+    "independentDelivery": {
+      "zipCrc": "passed",
+      "archiveFiles": 9,
+      "tests": 9,
+      "originalComparisons": 1823,
+      "originalComparisonsPassed": 1823,
+      "comparisonRecord": "/workspace/Letstryrea/.cache/targets/ms-2.1.3/delivery-comparison.json",
+      "sameArchiveSha256AsVerifiedRun": true,
+      "comparisonRecordSha256": "489b14789b6f9b47be0ed28b6a3bdd3f3fd0fe96559eec0660a12acdfb5d6de6"
+    }
+  },
+  "faultChecks": {
+    "wrongCandidate": {
+      "status": "failed",
+      "mismatches": 1730,
+      "total": 1823
+    },
+    "tamperedArtifact": {
+      "status": "unsupported",
+      "exitCode": 3,
+      "projectOrZipCreated": false
+    }
+  },
+  "regression": {
+    "recipe": "obsidian-markdown-search-v1",
+    "status": "completed",
+    "generatedTests": 28,
+    "originalApplicationComparisonsRerun": false
+  },
+  "archive": {
+    "path": "/workspace/Letstryrea/.cache/reconstructions/ms-2.1.3-verified/project.zip",
+    "bytes": 9979,
+    "sha256": "f865f31ca6f17ac441bed62299238af466f54ab9bbe1c92d1d387eacb1720f34",
+    "files": 9
+  },
+  "manifest": {
+    "files": [
+      {
+        "path": "README.md",
+        "bytes": 1231,
+        "sha256": "008b6fcde9bc5d19c26bfc1ffdf0930bac7a22e2f67302dc21d75c8640a52828"
+      },
+      {
+        "path": "THIRD_PARTY_NOTICES.md",
+        "bytes": 1079,
+        "sha256": "1662fae9b5314d11cf51284e2dcd1f006a354f7343f08712a730fcff9a359801"
+      },
+      {
+        "path": "bin/letstryrea.mjs",
+        "bytes": 137,
+        "sha256": "9054d6d798f4d1c7e235fdf0f56ddb3906c3399e73c38e7554789e7bdcaaf3fa"
+      },
+      {
+        "path": "docs/duration-spec.md",
+        "bytes": 5006,
+        "sha256": "ab2bc0d9ecbbe584918b4eb74481cbadb7bd836b333b350c2690cb616eb6cf2c"
+      },
+      {
+        "path": "package.json",
+        "bytes": 477,
+        "sha256": "b0fba2d060f5378640142a0d77b63b6852fcd486fa411206387dffc3ae2ffc07"
+      },
+      {
+        "path": "recipe.json",
+        "bytes": 1563,
+        "sha256": "a69ea211b5837c623c606866f8f792cb55d72a6a1f8bd93bd835295dcbe7e0e7"
+      },
+      {
+        "path": "src/duration-cli.mjs",
+        "bytes": 2427,
+        "sha256": "0112b08a9b4ca187c257fee64a9a6653d93e4a46510e73f5b5e6f504d5feeede"
+      },
+      {
+        "path": "src/duration.mjs",
+        "bytes": 2502,
+        "sha256": "ca6d12b9b9a0268f9aa59e8b9a33b447f801c6495edada33672cfb99afe9c345"
+      },
+      {
+        "path": "test/duration.test.mjs",
+        "bytes": 6626,
+        "sha256": "ff3fc3d885365d26adc2c8b3445bae95cf501e7274ac31da70f3564968297210"
+      }
+    ]
+  },
+  "rawEvidenceDirectory": ".cache/reconstructions/ms-2.1.3-verified/evidence",
+  "limitations": [
+    "Only the exact studied ms 2.1.3 npm tarball is supported by this duration recipe.",
+    "Generation exports an existing independently written implementation; general artifact-to-source synthesis is not implemented.",
+    "REA analyzes the verified extracted directory as inert source. Its inspect-artifact command does not support this input; the local extraction manifest supplies archive verification.",
+    "REA semantic coverage contains unknowns and does not establish runtime behavior.",
+    "Fresh comparisons execute only the pinned MIT reference library and this generated implementation on a fixed synthetic corpus in separate bounded child processes; arbitrary original artifacts are not executed.",
+    "The comparison covers documented strings, numeric thresholds, rounding, and ordinary invalid JSON types; exotic objects, functions, proxies, and resource behavior remain outside scope."
+  ]
+}

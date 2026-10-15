@@ -1,12 +1,12 @@
-# First artifact-to-project pipeline
+# Artifact-to-project pipeline
 
 The command is `letstryrea reconstruct <artifact> --out <new-directory>`.
-It automates the manually verified experiment for one known artifact and one
-known capability. Generation mode is explicitly `verified-recipe-export`.
+It applies independently implemented reconstruction recipes to two known
+artifacts and capabilities. Generation mode is explicitly `verified-recipe-export`.
 Matching keywords, module counts, filenames, or product metadata never enable
 a recipe for an arbitrary input.
 
-## Eligibility
+## Obsidian eligibility
 
 The first recipe, `obsidian-markdown-search-v1`, accepts the exact official
 Obsidian 1.14.4 application-update ASAR studied previously:
@@ -64,14 +64,42 @@ completed Evidence rather than replacing analysis with a superficial check.
   never described as comparisons rerun by this pipeline.
 - **Implemented output:** the supported plain-text Markdown search subset.
   It runs independently using Node.js 24+ and no third-party dependencies.
-- **Unimplemented:** arbitrary code synthesis, additional formats/releases,
+- **Unimplemented:** arbitrary code synthesis, formats/releases beyond the two recipes,
   full application reconstruction, and a browser upload interface.
 
-The artifact is never loaded as executable code. Generated verification runs
+The Obsidian artifact is never loaded as executable code. Generated verification runs
 our independently written allowlisted implementation and tests. Adding another
 recipe requires its own observed behavior, independently authored code,
 provenance contract, and meaningful validation; changing only a digest or
 keyword list would not establish support.
+
+## Duration recipe
+
+`ms-duration-v1` accepts only the published `ms@2.1.3` npm tarball. See
+[the duration specification](duration-spec.md) for the compressed and source
+digests, grammar, unit constants, formatting rules, and adapter differences.
+
+The intake checks the compressed digest, bounded TAR structure, and all four
+file digests before writing extracted bytes. REA cannot inspect this TGZ through
+`inspect-artifact`, so this route performs direct selected-source analysis of
+the verified package directory. The report preserves the compressed artifact,
+file-manifest, and analyzed-directory identities separately. A directory digest
+is never substituted for the incoming tarball digest.
+
+The pipeline exports the independent duration module and CLI, runs their public
+test suite and demo, and performs fresh original comparisons before packaging.
+The comparator runs the pinned original and exported candidate in different
+bounded child processes on a fixed synthetic corpus. It preserves undefined,
+negative zero, nonfinite numbers, and exact exceptions in typed outcomes, and
+requires every nonzero-count comparison to pass. Source digests must remain
+unchanged before and after execution. This recipe deliberately executes the
+known MIT reference; unsupported inputs and the Obsidian artifact are not
+executed.
+
+Each ZIP uses a recipe-specific fixed file allowlist. The duration ZIP includes
+the independent implementation, tests, CLI, specification, provenance, and MIT
+notice. Original package files, comparator code, and raw analysis remain outside
+the ZIP. A standalone export requires neither REA nor the original package.
 
 ## Results
 
@@ -107,3 +135,18 @@ contains the actual stage/command outcomes, source/file/archive digests, fresh
 test counts, independent delivery check, fault-injection outcomes, and the
 explicit historical-only original-app comparison reference. Complete raw
 Evidence remains in the local job directory referenced by that record.
+
+## Verified duration run
+
+The second recipe passed fresh analysis, all 9 exported-project tests, both
+CLI demos, and all 1,823 typed original-reference comparisons. The deterministic
+ZIP contains 9 files. Independent extraction passed the same 9 tests and all
+1,823 comparisons again. All 94 repository checks passed. A deliberately wrong
+implementation failed 1,730 comparisons, and a modified TGZ was rejected before
+analysis or project creation. The original Obsidian pipeline was rerun through
+successful export and all 28 generated-project tests; its original-app
+comparisons remain historical.
+
+The [duration verification receipt](verification/duration-ms-2.1.3.json) records
+artifact/file/source identities, partial semantic coverage, corpus and candidate
+hashes, fresh counts, archive/manifest hashes, delivery checks, and fault checks.
