@@ -20,6 +20,9 @@
     "demo:duration": "node bin/letstryrea.mjs duration parse 2h",
     "compare:ms": "node scripts/compare-ms.mjs",
     "compare:obsidian": "node scripts/compare-obsidian.mjs",
-    "reconstruct": "node bin/letstryrea.mjs reconstruct"
+    "reconstruct": "node bin/letstryrea.mjs reconstruct",
+    "synthesize": "node bin/letstryrea.mjs synthesize",
+    "complete-synthesis": "node bin/letstryrea.mjs complete-synthesis",
+    "check:interpreter": "node scripts/check-pure-interpreter.mjs"
   }
 }
