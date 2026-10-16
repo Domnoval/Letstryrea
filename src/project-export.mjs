@@ -4,6 +4,7 @@ import { dirname, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { crc32, deflateRawSync } from 'node:zlib';
 import { DURATION_PROJECT_PATHS } from './duration-export.mjs';
+import { SYNTHESIS_PROJECT_PATHS } from './synthesis-export.mjs';
 
 const sourceRoot = fileURLToPath(new URL('../', import.meta.url));
 const copiedPaths = [
@@ -197,6 +198,7 @@ export async function createProjectArchive({ projectDirectory, archivePath, reci
   let allowedPaths;
   if (recipeId === 'obsidian-markdown-search-v1') allowedPaths = projectPaths;
   else if (recipeId === 'ms-duration-v1') allowedPaths = new Set(DURATION_PROJECT_PATHS);
+  else if (recipeId === 'pure-function-synthesis-v1') allowedPaths = new Set(SYNTHESIS_PROJECT_PATHS);
   else throw new Error('Unknown project archive recipe.');
   const directory = resolve(projectDirectory);
   const info = await lstat(directory);

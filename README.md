@@ -5,10 +5,14 @@ tested project plus a downloadable ZIP and verification report. Two recipes
 export independently written capabilities checked against their originals:
 Markdown search from Obsidian 1.14.4 and duration conversion from `ms@2.1.3`.
 
-The pipeline recognizes **the exact studied Obsidian 1.14.4 application-update
+The recipe pipeline recognizes **the exact studied Obsidian 1.14.4 application-update
 ASAR and the exact published `ms@2.1.3` npm tarball**. It applies known
 reconstruction recipes. General artifact-to-source synthesis and other
-apps/releases remain future work.
+apps/releases remain future work. A separate **source-assisted synthesis** path
+now accepts unfamiliar functions within a bounded JavaScript subset, without
+adding artifact hashes or recipes. It prepares REA-backed generation requests,
+checks returned candidates, and exports standalone tested projects. See
+[the synthesis workflow](docs/synthesis.md).
 
 The implementation uses independently written JavaScript and Node.js built-ins.
 It runs without Obsidian, REA, or third-party runtime dependencies. Node.js 24+
@@ -27,6 +31,26 @@ This installs the locked REA 6.5.0 tooling separately from the application,
 checks its real MCP connection and JavaScript analysis, and runs the project
 tests and demo. It works from a fresh checkout without the original cloud
 snapshot. See [environment recovery](docs/environment.md).
+
+For unfamiliar single-function JavaScript source, begin with:
+
+```sh
+npm run synthesize -- examples/synthesis/threshold.cjs \
+  --cases examples/synthesis/threshold-cases.json --out .cache/threshold-job
+```
+
+This produces a request for a coding agent. Complete it with the returned JSON:
+
+```sh
+npm run complete-synthesis -- .cache/threshold-job --response /path/to/response.json
+```
+
+An explicit `--provider codex` or `--generator /path/to/trusted-generator` can
+perform generation in the first invocation when that provider is reachable.
+The verified examples used this Codex chat for generation because the worker's
+network policy blocked its separate model connection. Reports preserve that
+distinction. Originals are interpreted from validated syntax; unknown original
+JavaScript is never executed by the synthesis workflow.
 
 Try the smaller duration-conversion reconstruction:
 
