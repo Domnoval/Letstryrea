@@ -99,6 +99,13 @@ The normalized IR is included; raw source comments are omitted from provider
 requests. Provider failures produce failed receipts and preserve the request
 for an assisted retry.
 
+For an observed proxy CONNECT 403 to the ChatGPT model endpoint, the adapter
+returns `PROVIDER_NETWORK_BLOCKED`. JSON output includes `failureCode` and
+`reportPath`; the report retains the actual command and log locations. Follow
+the [worker model access instructions](environment.md#worker-model-access) to
+apply the required host setting, then retry with a new output directory. Other
+HTTP 403 responses keep their ordinary failure classification.
+
 ## Supported language and verification
 
 The first supported subset has one function with one to four identifier

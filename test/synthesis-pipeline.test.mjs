@@ -1,8 +1,10 @@
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { chmod, lstat, mkdir, mkdtemp, readFile, readdir, rm, symlink, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 import { completeSynthesis, prepareSynthesis, SynthesisInputError, verifySynthesisAnalysis } from '../src/synthesis-pipeline.mjs';
 import { stringifySynthesis } from '../src/synthesis-json.mjs';
@@ -138,6 +140,34 @@ test('a failed opted-in provider retains its real failure receipt and request fo
   assert.equal(completed.exitCode, 0, completed.report.error);
   assert.equal(completed.report.generation.mode, 'chat-assisted');
   assert.equal(completed.report.providerReceipt.state, 'failed');
+});
+
+test('CLI JSON exposes the failure code and retained report when generation fails', async (t) => {
+  const root = await workspace(t);
+  const input = join(root, 'input.js');
+  const cases = join(root, 'cases.json');
+  const output = join(root, 'failed CLI job');
+  const generator = join(root, 'failed-generator');
+  await writeFile(input, original);
+  await writeFile(cases, JSON.stringify(contract));
+  await writeFile(generator, `#!${process.execPath}\nprocess.exit(23);\n`);
+  await chmod(generator, 0o755);
+  const cli = fileURLToPath(new URL('../bin/letstryrea.mjs', import.meta.url));
+  const result = spawnSync(process.execPath, [cli, 'synthesize', input, '--cases', cases,
+    '--out', output, '--rea', await fakeRea(root), '--generator', generator, '--json'],
+  { encoding: 'utf8', timeout: 15000 });
+  assert.ifError(result.error);
+  assert.equal(result.status, 1, result.stderr);
+  const summary = JSON.parse(result.stdout);
+  assert.equal(summary.status, 'failed');
+  assert.equal(summary.failureCode, 'PROVIDER_FAILED');
+  assert.equal(summary.reportPath, join(output, 'report.json'));
+  const report = JSON.parse(await readFile(summary.reportPath, 'utf8'));
+  assert.equal(report.failureCode, summary.failureCode);
+  assert.equal(report.providerReceipt.command.exitCode, 23);
+  assert.equal(summary.requestPath, report.requestPath);
+  assert.equal(JSON.parse(await readFile(summary.requestPath, 'utf8')).requestId, report.requestId);
+  await absent(join(output, 'project.zip'));
 });
 
 test('a supplied source notice remains bound to the request and is included exactly in the generated project', async (t) => {

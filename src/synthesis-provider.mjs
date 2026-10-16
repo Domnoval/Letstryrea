@@ -93,6 +93,28 @@ async function saveReceipt(handle, receipt) {
   }
 }
 
+async function confirmedCodexNetworkDenial(paths) {
+  for (const path of paths) {
+    let log;
+    try { log = await readFile(path, 'utf8'); } catch { continue; }
+    for (const entry of log.split(/\r?\n/u)) {
+      // Bind the proxy status and known endpoint to the same log entry. A
+      // generic HTTP 403, authentication error, or URL on another line does
+      // not establish that this request was denied by the network proxy.
+      if (!/\bHTTP[ \t]+CONNECT[ \t]+failed with status[ \t]+403\b/iu.test(entry)) continue;
+      for (const match of entry.matchAll(/\b(?:https|wss):\/\/[^\s"'<>\\]+/giu)) {
+        let endpoint;
+        try { endpoint = new URL(match[0].replace(/[),.;]+$/u, '')); } catch { continue; }
+        if (endpoint.hostname === 'chatgpt.com' && endpoint.pathname === '/backend-api/codex/responses') {
+          return { kind: 'proxy-connect-denied', host: 'chatgpt.com', endpoint: 'codex-responses',
+            httpStatus: 403, confirmation: 'same-provider-log-entry' };
+        }
+      }
+    }
+  }
+  return undefined;
+}
+
 /** Run a trusted host executable. This transport is not a security sandbox. */
 async function runChild({ executable, args, workspace, stdin, stdout, stderr, timeoutMs }) {
   const startedAt = new Date().toISOString();
@@ -204,6 +226,13 @@ async function generate({ request, workspace, executable, args, timeoutMs, kind 
     receipt.command = await runChild({ executable: selectedExecutable, args: actualArgs, workspace: directory,
       stdin, stdout, stderr, timeoutMs });
     Object.assign(receipt.command, { stdoutPath, stderrPath });
+    if (kind === 'codex-cli' && !receipt.command.error && !receipt.command.outputLimitExceeded &&
+        (receipt.command.timedOut || receipt.command.exitCode !== 0 || receipt.command.signal)) {
+      const diagnosis = await confirmedCodexNetworkDenial([stderrPath, stdoutPath]);
+      if (diagnosis) throw new SynthesisProviderError('PROVIDER_NETWORK_BLOCKED',
+        'The proxy denied the Codex connection to chatgpt.com (CONNECT 403). Add chatgpt.com to allowed hosts in this chat\'s Environment networking, then Save and Publish/apply the configuration before retrying.',
+        { diagnosis });
+    }
     if (receipt.command.timedOut) throw new SynthesisProviderError('PROVIDER_DEADLINE', 'The synthesis provider exceeded its deadline.');
     if (receipt.command.outputLimitExceeded) throw new SynthesisProviderError('PROVIDER_OUTPUT_LIMIT', 'The synthesis provider exceeded its retained output limit.');
     if (receipt.command.error) throw new SynthesisProviderError('PROVIDER_UNAVAILABLE', 'The synthesis provider could not run. Inspect its retained command receipt.');
@@ -231,6 +260,7 @@ async function generate({ request, workspace, executable, args, timeoutMs, kind 
     receipt.state = 'failed';
     receipt.finishedAt = new Date().toISOString();
     receipt.error = { code: error.code, message: error.message };
+    if (error.diagnosis) receipt.diagnosis = error.diagnosis;
     await saveReceipt(receiptHandle, receipt);
     Object.assign(error, { receipt, receiptPath });
     throw error;

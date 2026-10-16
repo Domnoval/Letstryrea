@@ -176,3 +176,69 @@ test('controlled Codex substitute checks requested flags and writes a schema res
   assert.equal(result.receipt.permissions.toolFreeGuaranteed, false);
   assert(result.receipt.permissions.featureDisablesRequested.includes('shell_tool'));
 });
+
+test('confirmed Codex proxy CONNECT 403 identifies the blocked ChatGPT host without reflecting raw logs', async (t) => {
+  for (const [stream, log] of [
+    ['stderr', 'ERROR responses_websocket: Proxy connection failed: HTTP CONNECT failed with status 403, url: wss://chatgpt.com/backend-api/codex/responses DO_NOT_REFLECT_TRANSPORT_LOG_MARKER'],
+    ['stdout', JSON.stringify({ type: 'error', message: 'Proxy connection failed: HTTP CONNECT failed with status 403, url: https://chatgpt.com/backend-api/codex/responses' })],
+  ]) {
+    await t.test(stream, async (t) => {
+      const { root, output } = await workspace(t);
+      const executable = await fakeGenerator(root, `process.${stream}.write(${JSON.stringify(log)}); process.exitCode = 1;`);
+      const receipt = await assertFailed(() => generateWithCodex({ request, workspace: output, executable }), output, 'PROVIDER_NETWORK_BLOCKED');
+      assert.deepEqual(receipt.diagnosis, { kind: 'proxy-connect-denied', host: 'chatgpt.com', endpoint: 'codex-responses',
+        httpStatus: 403, confirmation: 'same-provider-log-entry' });
+      assert.match(receipt.error.message, /Add chatgpt\.com.*Environment networking/);
+      assert.equal(receipt.command.exitCode, 1);
+      assert(!JSON.stringify(receipt).includes('DO_NOT_REFLECT_TRANSPORT_LOG_MARKER'));
+    });
+  }
+});
+
+test('generic, authentication, unrelated-host, and separately logged errors are not confirmed ChatGPT proxy denials', async (t) => {
+  for (const [name, log] of [
+    ['generic 403', 'Unexpected HTTP status 403 Forbidden, url: https://chatgpt.com/backend-api/codex/responses'],
+    ['authentication', 'HTTP 401 Unauthorized: authentication failed, url: https://chatgpt.com/backend-api/codex/responses'],
+    ['another provider', 'HTTP CONNECT failed with status 403, url: https://api.openai.com/v1/responses'],
+    ['lookalike host', 'HTTP CONNECT failed with status 403, url: https://chatgpt.com.example.invalid/backend-api/codex/responses'],
+    ['userinfo host', 'HTTP CONNECT failed with status 403, url: https://chatgpt.com@example.invalid/backend-api/codex/responses'],
+    ['another endpoint', 'HTTP CONNECT failed with status 403, url: https://chatgpt.com/backend-api/other'],
+    ['separate entries', 'HTTP CONNECT failed with status 403\nConnection failed, url: wss://chatgpt.com/backend-api/codex/responses'],
+    ['generic connection', 'Connection failed: error sending request, url: https://chatgpt.com/backend-api/codex/responses'],
+  ]) {
+    await t.test(name, async (t) => {
+      const { root, output } = await workspace(t);
+      const executable = await fakeGenerator(root, `process.stderr.write(${JSON.stringify(log)}); process.exitCode = 1;`);
+      const receipt = await assertFailed(() => generateWithCodex({ request, workspace: output, executable }), output, 'PROVIDER_FAILED');
+      assert.equal(receipt.diagnosis, undefined);
+    });
+  }
+});
+
+test('confirmed proxy denial remains actionable when Codex subsequently reaches its deadline', async (t) => {
+  const { root, output } = await workspace(t);
+  const executable = await fakeGenerator(root, `
+    process.stderr.write('Proxy connection failed: HTTP CONNECT failed with status 403, url: wss://chatgpt.com/backend-api/codex/responses\\n');
+    setInterval(() => {}, 1000);
+  `);
+  const receipt = await assertFailed(() => generateWithCodex({ request, workspace: output, executable, timeoutMs: 1000 }), output, 'PROVIDER_NETWORK_BLOCKED');
+  assert.equal(receipt.command.timedOut, true);
+});
+
+test('connection failure without confirmed proxy denial retains the actual provider deadline', async (t) => {
+  const { root, output } = await workspace(t);
+  const executable = await fakeGenerator(root, `process.stderr.write('Connection failed: error sending request'); setInterval(() => {}, 1000);`);
+  const receipt = await assertFailed(() => generateWithCodex({ request, workspace: output, executable, timeoutMs: 200 }), output, 'PROVIDER_DEADLINE');
+  assert.equal(receipt.command.timedOut, true);
+  assert.equal(receipt.diagnosis, undefined);
+});
+
+test('external generators do not inherit Codex-specific host diagnosis', async (t) => {
+  const { root, output } = await workspace(t);
+  const executable = await fakeGenerator(root, `
+    process.stderr.write('HTTP CONNECT failed with status 403, url: wss://chatgpt.com/backend-api/codex/responses');
+    process.exitCode = 1;
+  `);
+  const receipt = await assertFailed(() => runSynthesisProvider({ request, workspace: output, executable }), output, 'PROVIDER_FAILED');
+  assert.equal(receipt.diagnosis, undefined);
+});
