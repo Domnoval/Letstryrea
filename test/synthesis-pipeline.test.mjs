@@ -170,6 +170,49 @@ test('CLI JSON exposes the failure code and retained report when generation fail
   await absent(join(output, 'project.zip'));
 });
 
+test('Codex authentication failure reaches CLI output and retained reports without creating an attempt', async (t) => {
+  const root = await workspace(t);
+  const input = join(root, 'input.js');
+  const cases = join(root, 'cases.json');
+  const bin = join(root, 'bin');
+  await mkdir(bin);
+  await writeFile(input, original);
+  await writeFile(cases, JSON.stringify(contract));
+  const codex = join(bin, 'codex');
+  const message = 'Your access token could not be refreshed because you have since logged out or signed in to another account. Please sign in again.';
+  await writeFile(codex, `#!${process.execPath}\nprocess.stdout.write(JSON.stringify({ type: 'turn.failed', error: { message: ${JSON.stringify(message)} } }) + '\\n');\nprocess.exitCode = 1;\n`);
+  await chmod(codex, 0o755);
+  const rea = await fakeRea(root);
+  const cli = fileURLToPath(new URL('../bin/letstryrea.mjs', import.meta.url));
+  for (const json of [true, false]) {
+    const output = join(root, json ? 'json job' : 'text job');
+    const result = spawnSync(process.execPath, [cli, 'synthesize', input, '--cases', cases,
+      '--out', output, '--rea', rea, '--provider', 'codex', ...(json ? ['--json'] : [])],
+    { encoding: 'utf8', timeout: 15000, env: { ...process.env, PATH: `${bin}:${process.env.PATH}` } });
+    assert.ifError(result.error);
+    assert.equal(result.status, 1, result.stderr);
+    const reportPath = join(output, 'report.json');
+    if (json) {
+      const summary = JSON.parse(result.stdout);
+      assert.equal(summary.failureCode, 'PROVIDER_AUTH_FAILED');
+      assert.equal(summary.reportPath, reportPath);
+      assert.match(summary.error, /sign in/i);
+    } else {
+      assert(result.stdout.includes(reportPath));
+      assert.match(result.stderr, /sign in/i);
+    }
+    const report = JSON.parse(await readFile(reportPath, 'utf8'));
+    const receipt = JSON.parse(await readFile(join(output, 'provider/provider-receipt.json'), 'utf8'));
+    assert.equal(report.failureCode, 'PROVIDER_AUTH_FAILED');
+    assert.equal(report.originalSourceExecution, false);
+    assert.equal(receipt.state, 'failed');
+    assert.equal(receipt.error.code, report.failureCode);
+    assert.deepEqual(report.providerReceipt, receipt);
+    await absent(join(output, 'attempts'));
+    await absent(join(output, 'project.zip'));
+  }
+});
+
 test('a supplied source notice remains bound to the request and is included exactly in the generated project', async (t) => {
   const root = await workspace(t);
   const input = join(root, 'input.js');

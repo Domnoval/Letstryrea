@@ -13,6 +13,8 @@ const request = { requestId: 'request-transport-test', input: { sha256: 'a'.repe
 const response = { schemaVersion: 1, requestId: request.requestId,
   source: 'export default function reconstructed(x, y) { return x + y; }\n',
   summary: 'Adds the two numeric parameters.', limitations: ['Transport fixture, not a model generation.'] };
+const codexRefreshRejection = 'Your access token could not be refreshed because you have since logged out or signed in to another account. Please sign in again.';
+const codexModelsRejection = 'failed to refresh available models: unexpected status 401 Unauthorized: {"detail":"Could not parse your authentication token. Please try signing in again."}, url: https://chatgpt.com/backend-api/codex/models?client_version=0.159.2';
 
 async function workspace(t) {
   const root = await mkdtemp(join(tmpdir(), 'letstryrea provider transport '));
@@ -215,6 +217,90 @@ test('generic, authentication, unrelated-host, and separately logged errors are 
   }
 });
 
+test('observed Codex credential failures identify sign-in recovery without reflecting retained logs', async (t) => {
+  for (const [name, stream, log, diagnosis] of [
+    ['models token rejection', 'stderr', `ERROR ${codexModelsRejection} DO_NOT_REFLECT_AUTH_LOG_MARKER`,
+      { kind: 'codex-authentication-failed', reason: 'token-rejected', host: 'chatgpt.com', endpoint: 'codex-models',
+        httpStatus: 401, confirmation: 'same-provider-log-entry' }],
+    ['error event', 'stdout', JSON.stringify({ type: 'error', message: codexRefreshRejection, detail: 'DO_NOT_REFLECT_AUTH_LOG_MARKER' }),
+      { kind: 'codex-authentication-failed', reason: 'session-refresh-rejected', confirmation: 'codex-error-event' }],
+    ['failed turn', 'stdout', JSON.stringify({ type: 'turn.failed', error: { message: codexRefreshRejection }, detail: 'DO_NOT_REFLECT_AUTH_LOG_MARKER' }),
+      { kind: 'codex-authentication-failed', reason: 'session-refresh-rejected', confirmation: 'codex-error-event' }],
+  ]) {
+    await t.test(name, async (t) => {
+      const { root, output } = await workspace(t);
+      const executable = await fakeGenerator(root, `process.${stream}.write(${JSON.stringify(log)}); process.exitCode = 1;`);
+      const receipt = await assertFailed(() => generateWithCodex({ request, workspace: output, executable }), output, 'PROVIDER_AUTH_FAILED');
+      assert.deepEqual(receipt.diagnosis, diagnosis);
+      assert.match(receipt.error.message, /Sign in to Codex again.*codex login.*retry automatic reconstruction/);
+      assert.equal(receipt.command.exitCode, 1);
+      assert(!JSON.stringify(receipt).includes('DO_NOT_REFLECT_AUTH_LOG_MARKER'));
+      assert.match(await readFile(join(output, stream === 'stderr' ? 'provider-stderr.log' : 'provider-stdout.jsonl'), 'utf8'), /DO_NOT_REFLECT_AUTH_LOG_MARKER/);
+      assert.equal((await lstat(join(output, 'provider-response.json'))).size, 0);
+    });
+  }
+});
+
+test('generic, unrelated, malformed, and separated log entries do not confirm Codex credential failure', async (t) => {
+  for (const [name, stderr, stdout = ''] of [
+    ['generic 401', 'HTTP 401 Unauthorized, url: https://chatgpt.com/backend-api/codex/models'],
+    ['generic model authentication', codexModelsRejection.replace('Could not parse your authentication token. Please try signing in again.', 'Authentication failed.')],
+    ['another provider', codexModelsRejection.replace('chatgpt.com', 'api.openai.com')],
+    ['lookalike host', codexModelsRejection.replace('chatgpt.com', 'chatgpt.com.example.invalid')],
+    ['userinfo host', codexModelsRejection.replace('chatgpt.com', 'chatgpt.com@example.invalid')],
+    ['another endpoint', codexModelsRejection.replace('/backend-api/codex/models', '/backend-api/other')],
+    ['another status', codexModelsRejection.replace('401 Unauthorized', '403 Forbidden')],
+    ['malformed error body', codexModelsRejection.replace('{"detail":', '{detail:')],
+    ['separate entries', codexModelsRejection.replace(', url:', '\nurl:')],
+    ['separate streams', codexModelsRejection.split(', url:')[0], `url:${codexModelsRejection.split(', url:')[1]}`],
+    ['raw refresh message', codexRefreshRejection],
+    ['JSONL on stderr', JSON.stringify({ type: 'error', message: codexRefreshRejection })],
+    ['stderr text on stdout', '', codexModelsRejection],
+    ['generic error event', '', JSON.stringify({ type: 'error', message: 'HTTP 401 Unauthorized' })],
+    ['unrelated event', '', JSON.stringify({ type: 'item.completed', message: codexRefreshRejection })],
+    ['raw stdout message', '', codexRefreshRejection],
+    ['modified refresh message', '', JSON.stringify({ type: 'error', message: `${codexRefreshRejection} Additional unrelated text.` })],
+  ]) {
+    await t.test(name, async (t) => {
+      const { root, output } = await workspace(t);
+      const executable = await fakeGenerator(root, `process.stderr.write(${JSON.stringify(stderr)}); process.stdout.write(${JSON.stringify(stdout)}); process.exitCode = 1;`);
+      const receipt = await assertFailed(() => generateWithCodex({ request, workspace: output, executable }), output, 'PROVIDER_FAILED');
+      assert.equal(receipt.diagnosis, undefined);
+    });
+  }
+});
+
+test('confirmed proxy denial takes precedence over Codex authentication rejection', async (t) => {
+  const { root, output } = await workspace(t);
+  const executable = await fakeGenerator(root, `
+    process.stderr.write(${JSON.stringify(codexModelsRejection)} + '\\n');
+    process.stdout.write(JSON.stringify({ type: 'error', message: ${JSON.stringify(codexRefreshRejection)} }) + '\\n');
+    process.stdout.write(JSON.stringify({ type: 'error', message: 'HTTP CONNECT failed with status 403, url: wss://chatgpt.com/backend-api/codex/responses' }));
+    process.exitCode = 1;
+  `);
+  const receipt = await assertFailed(() => generateWithCodex({ request, workspace: output, executable }), output, 'PROVIDER_NETWORK_BLOCKED');
+  assert.equal(receipt.diagnosis.kind, 'proxy-connect-denied');
+});
+
+test('confirmed Codex authentication rejection remains actionable after the provider deadline', async (t) => {
+  const { root, output } = await workspace(t);
+  const executable = await fakeGenerator(root, `process.stderr.write(${JSON.stringify(codexModelsRejection)}); setInterval(() => {}, 1000);`);
+  const receipt = await assertFailed(() => generateWithCodex({ request, workspace: output, executable, timeoutMs: 500 }), output, 'PROVIDER_AUTH_FAILED');
+  assert.equal(receipt.command.timedOut, true);
+});
+
+test('Codex authentication logs remain bounded and do not override the output limit', async (t) => {
+  const { root, output } = await workspace(t);
+  const executable = await fakeGenerator(root, `
+    process.stdout.write(JSON.stringify({ type: 'error', message: ${JSON.stringify(codexRefreshRejection)} }) + '\\n' + 'x'.repeat(2 * 1024 * 1024));
+    setInterval(() => {}, 1000);
+  `);
+  const receipt = await assertFailed(() => generateWithCodex({ request, workspace: output, executable }), output, 'PROVIDER_OUTPUT_LIMIT');
+  assert.equal(receipt.command.outputLimitExceeded, true);
+  assert.equal(receipt.diagnosis, undefined);
+  assert((await lstat(join(output, 'provider-stdout.jsonl'))).size <= 1024 * 1024);
+});
+
 test('confirmed proxy denial remains actionable when Codex subsequently reaches its deadline', async (t) => {
   const { root, output } = await workspace(t);
   const executable = await fakeGenerator(root, `
@@ -237,6 +323,17 @@ test('external generators do not inherit Codex-specific host diagnosis', async (
   const { root, output } = await workspace(t);
   const executable = await fakeGenerator(root, `
     process.stderr.write('HTTP CONNECT failed with status 403, url: wss://chatgpt.com/backend-api/codex/responses');
+    process.exitCode = 1;
+  `);
+  const receipt = await assertFailed(() => runSynthesisProvider({ request, workspace: output, executable }), output, 'PROVIDER_FAILED');
+  assert.equal(receipt.diagnosis, undefined);
+});
+
+test('external generators do not inherit Codex-specific authentication diagnosis', async (t) => {
+  const { root, output } = await workspace(t);
+  const executable = await fakeGenerator(root, `
+    process.stderr.write(${JSON.stringify(codexModelsRejection)});
+    process.stdout.write(JSON.stringify({ type: 'error', message: ${JSON.stringify(codexRefreshRejection)} }));
     process.exitCode = 1;
   `);
   const receipt = await assertFailed(() => runSynthesisProvider({ request, workspace: output, executable }), output, 'PROVIDER_FAILED');

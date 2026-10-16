@@ -109,3 +109,32 @@ Network access alone is not a successful reconstruction: the generated
 candidate must still pass syntax, behavior, and exported-project checks before
 the pipeline produces a ZIP. Setup scripts do not change the enforced network
 policy or credentials.
+
+### Model authentication
+
+After the host was added, the worker reached ChatGPT but received HTTP 401 for
+the model catalog and responses endpoints. The CLI reported that its access
+token could not be refreshed because the account had logged out or signed in
+again. `codex login status` still reported a ChatGPT sign-in, so that status is
+not a live model-access check.
+
+An explicitly recognized Codex token rejection is reported as
+`PROVIDER_AUTH_FAILED`, with the retained receipt and log paths. Restore the
+worker's Codex authentication through its supported sign-in or credential
+provisioning flow; an interactive worker can use `codex login`. Generic HTTP 401
+responses without a recognized token error retain their ordinary provider
+failure classification.
+
+For a headless worker, use `codex login --device-auth` and complete the URL/code
+issued by that command. Device sign-in also requires **`auth.openai.com`** in the
+environment's allowed hosts: the CLI requests its user code from
+`https://auth.openai.com/api/accounts/deviceauth/usercode`. The recovery attempt
+in this worker was blocked there with a proxy CONNECT 403, before any code was
+issued. Apply that host setting while retaining `chatgpt.com`, then rerun device
+sign-in. The existing sign-in cache does not need to be deleted first. Follow
+the [official authentication guidance](https://learn.chatgpt.com/docs/auth).
+
+Then rerun the synthesis command above with a new output directory. The failed
+request remains available, and authentication failure produces no candidate
+attempt or ZIP. See [the access and ZIP verification record](verification/provider-access-and-zip.json)
+for the live failure and the separately labeled chat-assisted export check.

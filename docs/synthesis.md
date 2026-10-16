@@ -87,9 +87,11 @@ npm run synthesize -- input.js --cases cases.json --out output \
 The optional Codex adapter uses the installed CLI and its existing authentication,
 an ephemeral session, read-only mode, structured output, and bounded execution.
 These options are recorded, not presented as a guarantee of tool isolation.
-The current worker returned a proxy HTTP CONNECT 403 for `chatgpt.com`; no
-network bypass or fallback provider was used. Its real verification runs used
-the current Codex chat as the generation step and are labeled `chat-assisted`.
+The initial worker returned a proxy HTTP CONNECT 403 for `chatgpt.com`. After
+that host was allowed, a fresh worker reached ChatGPT but failed with HTTP 401
+and a rejected token refresh. Its successful verification exports
+used the current Codex chat as the generation step and are labeled
+`chat-assisted`; automatic model generation remains unverified.
 
 Alternatively, `--generator /absolute/path/to/trusted-generator` invokes a
 configured executable without a shell. It receives one JSON envelope on stdin
@@ -105,6 +107,12 @@ returns `PROVIDER_NETWORK_BLOCKED`. JSON output includes `failureCode` and
 the [worker model access instructions](environment.md#worker-model-access) to
 apply the required host setting, then retry with a new output directory. Other
 HTTP 403 responses keep their ordinary failure classification.
+
+Recognized Codex token rejection is reported as `PROVIDER_AUTH_FAILED` with
+sign-in guidance. Restore the worker's model authentication and retry in a new
+directory. `codex login status` alone does not verify live model access. See
+[model authentication](environment.md#model-authentication) and the
+[access and ZIP verification record](verification/provider-access-and-zip.json).
 
 ## Supported language and verification
 
