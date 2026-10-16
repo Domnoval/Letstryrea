@@ -1,3 +1,4 @@
+import { join } from 'node:path';
 import { completeSynthesis, prepareSynthesis, SynthesisInputError } from './synthesis-pipeline.mjs';
 
 export const synthesisHelp = `Source-assisted reconstruction of a bounded JavaScript function
@@ -63,13 +64,16 @@ export async function runSynthesisCli(args, { completion = false } = {}) {
         rea: options.rea, provider: options.provider, generator: options.generator, notice: options.notice });
     const { report, exitCode } = result;
     const summary = { status: report.status, outputDirectory: report.outputDirectory,
+      reportPath: join(report.outputDirectory, 'report.json'),
       requestPath: report.requestPath, archivePath: report.archive?.path,
+      ...(report.failureCode ? { failureCode: report.failureCode } : {}),
       ...(report.error ? { error: report.error } : {}) };
     if (options.json) process.stdout.write(JSON.stringify(summary, null, 2) + '\n');
     else {
       process.stdout.write(`Synthesis ${report.status}.\n`);
       if (summary.requestPath) process.stdout.write(`Generation request: ${summary.requestPath}\n`);
       if (summary.archivePath) process.stdout.write(`Standalone project ZIP: ${summary.archivePath}\n`);
+      process.stdout.write(`Run report: ${summary.reportPath}\n`);
       if (summary.error) process.stderr.write(`${typeof summary.error === 'string' ? summary.error : JSON.stringify(summary.error)}\n`);
     }
     process.exitCode = exitCode;

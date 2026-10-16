@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "scope": "Real Codex CLI transport failure diagnosis; no successful model generation claimed.",
+  "network": {
+    "observedRevision": "14",
+    "observationsCurrent": true,
+    "mode": "restricted",
+    "state": "enforced",
+    "customAllowedHosts": [],
+    "chatgptAllowed": false
+  },
+  "preparation": {
+    "inputSha256": "5423d9e34f092787c4c0c19247691e5db96c558f12e6d67f097ef818a7e530dd",
+    "requestId": "b7ef89ee0fb3ea8b3e58c8675bd583e5c8cce47e209abd25ae36b27f8a7bfbce",
+    "analyzer": {
+      "name": "rea-agents",
+      "version": "6.5.0"
+    },
+    "report": {
+      "path": ".cache/synthesis-jobs/codex-network-check/report.json",
+      "sha256": "99fd1173c2169133a3d713e8bed6ddc0cfabe2bf015d76a25c3d59925684dd52"
+    },
+    "request": {
+      "path": "/workspace/Letstryrea/.cache/synthesis-jobs/codex-network-check/synthesis-request.json",
+      "sha256": "5f4413328679787fc967ed5d3185090d2f508f3ebc10b64c95cdd95552f56531"
+    },
+    "status": "failed",
+    "failureCode": "PROVIDER_DEADLINE",
+    "originalSourceExecution": false,
+    "noArchive": true,
+    "noAttempts": true
+  },
+  "updatedAdapter": {
+    "receipt": {
+      "path": ".cache/synthesis-jobs/codex-network-check/provider-diagnosis/provider-receipt.json",
+      "sha256": "b7c0536e29f99a086568e9e601757c1fba3e02422697ec5e86d99817955a63f1"
+    },
+    "provider": "codex-cli",
+    "state": "failed",
+    "failureCode": "PROVIDER_NETWORK_BLOCKED",
+    "diagnosis": {
+      "kind": "proxy-connect-denied",
+      "host": "chatgpt.com",
+      "endpoint": "codex-responses",
+      "httpStatus": 403,
+      "confirmation": "same-provider-log-entry"
+    },
+    "timeoutMs": 20000,
+    "command": {
+      "exitCode": null,
+      "signal": "SIGTERM",
+      "timedOut": true,
+      "durationMs": 20021
+    },
+    "stdout": {
+      "path": "/workspace/Letstryrea/.cache/synthesis-jobs/codex-network-check/provider-diagnosis/provider-stdout.jsonl",
+      "sha256": "5e930339f6a5ce35d8d890b41362397ed0802af326cca3c5ed1e14b894803c84"
+    },
+    "stderr": {
+      "path": "/workspace/Letstryrea/.cache/synthesis-jobs/codex-network-check/provider-diagnosis/provider-stderr.log",
+      "sha256": "637799b2f924f7197d288d0313b8f3bd6ddd79c288a1906012e1de553e1b55c4"
+    },
+    "modelResponseAccepted": false
+  },
+  "repositoryChecks": {
+    "command": "node --test --test-reporter=tap",
+    "passed": 171,
+    "failed": 0,
+    "log": {
+      "path": ".cache/provider-network-tests.tap",
+      "sha256": "60737b8f3b8bab8a79cd5dae539677ffa8b5d135c00dcfffa1e90fe313f17f84"
+    }
+  },
+  "requiredAction": "Apply chatgpt.com as a custom allowed host in this chat’s Environment network configuration, then retry synthesis.",
+  "limitations": [
+    "The network policy remains unchanged; available tools expose its status but no configuration editor.",
+    "Controlled-process tests validate classification and CLI reporting; the separate live adapter attempt confirms the actual blocked connection.",
+    "A successful automatic reconstruction and ZIP export remain unverified until the model connection is available."
+  ]
+}

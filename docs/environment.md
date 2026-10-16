@@ -75,3 +75,66 @@ npm run setup:environment
 The setup command requires the repository revision containing these recovery
 scripts. A clean-checkout setup validates reproducibility without claiming that
 Codex itself saved or published a particular configuration.
+
+## Worker model access
+
+`synthesize --provider codex` also needs network access to the model service.
+For a CLI signed in through ChatGPT, the observed endpoint is
+`wss://chatgpt.com/backend-api/codex/responses` (with HTTPS transport as a
+fallback). A working package-manager preset allows dependency installation but
+does not include this host.
+
+In the Codex Environment configuration, keep restricted networking and the
+package-manager preset, add **`chatgpt.com`** to the custom allowed hosts, then
+Save and Publish/apply the configuration. Confirm the running environment has
+applied that revision before retrying. Saving and publishing working correctly
+does not establish that this particular host is allowed.
+
+A confirmed proxy CONNECT 403 for that endpoint is reported as
+`PROVIDER_NETWORK_BLOCKED`. The CLI prints the retained run report path; the
+report includes the actual provider command, bounded log paths, and failure
+receipt. A plain HTTP 403 may instead be an authentication or service error and
+does not establish a blocked proxy connection.
+
+Retry with a new output directory to preserve the failed run:
+
+```sh
+npm run synthesize -- examples/synthesis/threshold.cjs \
+  --cases examples/synthesis/threshold-cases.json \
+  --out .cache/synthesis-jobs/codex-retry --provider codex --json
+```
+
+The worker's source request remains available after a connection failure.
+Network access alone is not a successful reconstruction: the generated
+candidate must still pass syntax, behavior, and exported-project checks before
+the pipeline produces a ZIP. Setup scripts do not change the enforced network
+policy or credentials.
+
+### Model authentication
+
+After the host was added, the worker reached ChatGPT but received HTTP 401 for
+the model catalog and responses endpoints. The CLI reported that its access
+token could not be refreshed because the account had logged out or signed in
+again. `codex login status` still reported a ChatGPT sign-in, so that status is
+not a live model-access check.
+
+An explicitly recognized Codex token rejection is reported as
+`PROVIDER_AUTH_FAILED`, with the retained receipt and log paths. Restore the
+worker's Codex authentication through its supported sign-in or credential
+provisioning flow; an interactive worker can use `codex login`. Generic HTTP 401
+responses without a recognized token error retain their ordinary provider
+failure classification.
+
+For a headless worker, use `codex login --device-auth` and complete the URL/code
+issued by that command. Device sign-in also requires **`auth.openai.com`** in the
+environment's allowed hosts: the CLI requests its user code from
+`https://auth.openai.com/api/accounts/deviceauth/usercode`. The recovery attempt
+in this worker was blocked there with a proxy CONNECT 403, before any code was
+issued. Apply that host setting while retaining `chatgpt.com`, then rerun device
+sign-in. The existing sign-in cache does not need to be deleted first. Follow
+the [official authentication guidance](https://learn.chatgpt.com/docs/auth).
+
+Then rerun the synthesis command above with a new output directory. The failed
+request remains available, and authentication failure produces no candidate
+attempt or ZIP. See [the access and ZIP verification record](verification/provider-access-and-zip.json)
+for the live failure and the separately labeled chat-assisted export check.

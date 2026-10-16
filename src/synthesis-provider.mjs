@@ -93,6 +93,62 @@ async function saveReceipt(handle, receipt) {
   }
 }
 
+async function confirmedCodexNetworkDenial(paths) {
+  for (const path of paths) {
+    let log;
+    try { log = await readFile(path, 'utf8'); } catch { continue; }
+    for (const entry of log.split(/\r?\n/u)) {
+      // Bind the proxy status and known endpoint to the same log entry. A
+      // generic HTTP 403, authentication error, or URL on another line does
+      // not establish that this request was denied by the network proxy.
+      if (!/\bHTTP[ \t]+CONNECT[ \t]+failed with status[ \t]+403\b/iu.test(entry)) continue;
+      for (const match of entry.matchAll(/\b(?:https|wss):\/\/[^\s"'<>\\]+/giu)) {
+        let endpoint;
+        try { endpoint = new URL(match[0].replace(/[),.;]+$/u, '')); } catch { continue; }
+        if (endpoint.hostname === 'chatgpt.com' && endpoint.pathname === '/backend-api/codex/responses') {
+          return { kind: 'proxy-connect-denied', host: 'chatgpt.com', endpoint: 'codex-responses',
+            httpStatus: 403, confirmation: 'same-provider-log-entry' };
+        }
+      }
+    }
+  }
+  return undefined;
+}
+
+async function confirmedCodexAuthenticationFailure({ stderrPath, stdoutPath }) {
+  const [stderr, stdout] = await Promise.all([stderrPath, stdoutPath].map((path) =>
+    readFile(path, 'utf8').catch(() => '')));
+  for (const entry of stderr.split(/\r?\n/u)) {
+    // Keep the rejected token, status, and Codex models URL in one entry;
+    // a generic 401 or an authentication error from another service is not
+    // evidence that this environment's Codex credentials need refreshing.
+    const match = /\bfailed to refresh available models:[ \t]+unexpected status[ \t]+401[ \t]+Unauthorized:[ \t]*(\{.*\}),[ \t]+url:[ \t]*(https:\/\/[^\s"'<>\\]+)/iu.exec(entry);
+    if (!match) continue;
+    let body;
+    let endpoint;
+    try {
+      body = JSON.parse(match[1]);
+      endpoint = new URL(match[2].replace(/[),.;]+$/u, ''));
+    } catch { continue; }
+    if (body?.detail === 'Could not parse your authentication token. Please try signing in again.' &&
+        endpoint.hostname === 'chatgpt.com' && endpoint.pathname === '/backend-api/codex/models' &&
+        !endpoint.username && !endpoint.password && !endpoint.port) {
+      return { kind: 'codex-authentication-failed', reason: 'token-rejected', host: 'chatgpt.com',
+        endpoint: 'codex-models', httpStatus: 401, confirmation: 'same-provider-log-entry' };
+    }
+  }
+  for (const entry of stdout.split(/\r?\n/u)) {
+    let event;
+    try { event = JSON.parse(entry); } catch { continue; }
+    const message = event?.type === 'error' ? event.message :
+      event?.type === 'turn.failed' ? event.error?.message : undefined;
+    if (message === 'Your access token could not be refreshed because you have since logged out or signed in to another account. Please sign in again.') {
+      return { kind: 'codex-authentication-failed', reason: 'session-refresh-rejected', confirmation: 'codex-error-event' };
+    }
+  }
+  return undefined;
+}
+
 /** Run a trusted host executable. This transport is not a security sandbox. */
 async function runChild({ executable, args, workspace, stdin, stdout, stderr, timeoutMs }) {
   const startedAt = new Date().toISOString();
@@ -204,6 +260,17 @@ async function generate({ request, workspace, executable, args, timeoutMs, kind 
     receipt.command = await runChild({ executable: selectedExecutable, args: actualArgs, workspace: directory,
       stdin, stdout, stderr, timeoutMs });
     Object.assign(receipt.command, { stdoutPath, stderrPath });
+    if (kind === 'codex-cli' && !receipt.command.error && !receipt.command.outputLimitExceeded &&
+        (receipt.command.timedOut || receipt.command.exitCode !== 0 || receipt.command.signal)) {
+      const diagnosis = await confirmedCodexNetworkDenial([stderrPath, stdoutPath]);
+      if (diagnosis) throw new SynthesisProviderError('PROVIDER_NETWORK_BLOCKED',
+        'The proxy denied the Codex connection to chatgpt.com (CONNECT 403). Add chatgpt.com to allowed hosts in this chat\'s Environment networking, then Save and Publish/apply the configuration before retrying.',
+        { diagnosis });
+      const authentication = await confirmedCodexAuthenticationFailure({ stderrPath, stdoutPath });
+      if (authentication) throw new SynthesisProviderError('PROVIDER_AUTH_FAILED',
+        'Codex authentication failed. Sign in to Codex again in the environment running this job (codex login), then retry automatic reconstruction.',
+        { diagnosis: authentication });
+    }
     if (receipt.command.timedOut) throw new SynthesisProviderError('PROVIDER_DEADLINE', 'The synthesis provider exceeded its deadline.');
     if (receipt.command.outputLimitExceeded) throw new SynthesisProviderError('PROVIDER_OUTPUT_LIMIT', 'The synthesis provider exceeded its retained output limit.');
     if (receipt.command.error) throw new SynthesisProviderError('PROVIDER_UNAVAILABLE', 'The synthesis provider could not run. Inspect its retained command receipt.');
@@ -231,6 +298,7 @@ async function generate({ request, workspace, executable, args, timeoutMs, kind 
     receipt.state = 'failed';
     receipt.finishedAt = new Date().toISOString();
     receipt.error = { code: error.code, message: error.message };
+    if (error.diagnosis) receipt.diagnosis = error.diagnosis;
     await saveReceipt(receiptHandle, receipt);
     Object.assign(error, { receipt, receiptPath });
     throw error;
